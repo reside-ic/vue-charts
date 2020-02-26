@@ -1,7 +1,9 @@
-import BarChart from "./bar/BarChart.vue";
+import BarChartWithFilters from "./bar/BarChartWithFilters.vue";
+import BarChartWithErrors from "./bar/BarChartWithErrors";
 import FilterSelect from "./bar/FilterSelect.vue";
 
 export {
-    BarChart,
+    BarChartWithFilters,
+    BarChartWithErrors,
     FilterSelect
 }

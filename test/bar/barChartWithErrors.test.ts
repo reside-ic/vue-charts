@@ -1,6 +1,6 @@
 import Vue from "vue";
 import {shallowMount} from "@vue/test-utils";
-import BarChartWithErrors from "../../src/bar/barChartWithErrors";
+import BarChartWithErrors from "../../src/bar/BarChartWithErrors";
 
 describe("chartjsBar component", () => {
 

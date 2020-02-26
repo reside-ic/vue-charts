@@ -49,7 +49,7 @@
 <script lang="ts">
     import Vue from "vue";
     import TreeSelect from '@riophae/vue-treeselect';
-    import BarChartWithErrors from "./barChartWithErrors";
+    import BarChartWithErrors from "./BarChartWithErrors";
     import FilterSelect from "./FilterSelect.vue";
     import {BarchartIndicator, BarchartSelections, Dict, Filter, FilterOption} from "./types";
     import {getProcessedOutputData, toFilterLabelLookup} from "./utils";

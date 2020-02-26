@@ -2,16 +2,17 @@
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="../dist/css/style.min.css"/>
-    <title>Vue bar chart demo</title>
+    <title>Vue bar chart with filters</title>
 </head>
 <body>
 
 <div id="app" class="container mt-5">
+    <h1 class="my-5">Bar chart with filters</h1>
     <div class="row">
-        <bar-chart :chart-data="chartData"
-                   :filter-config="filterConfig"
-                   :indicators="indicators"
-                   v-model="selections"></bar-chart>
+        <bar-chart-with-filters :chart-data="chartData"
+                                :filter-config="filterConfig"
+                                :indicators="indicators"
+                                v-model="selections"></bar-chart-with-filters>
     </div>
 </div>
 
@@ -36,16 +37,16 @@
         data: {
             chartData: [
                 {
-                    value: 0.1, indicator: "prev", e_l: 0.09, e_h: 0.11, age: "<5", sex: "1", country: "1"
+                    value: 0.1, indicator: "prev", e_l: 0.09, e_h: 0.11, age: "<5", sex: "1"
                 },
                 {
-                    value: 0.2, indicator: "prev", e_l: 0.19, e_h: 0.21, age: "<5", sex: "2", country: "1"
+                    value: 0.2, indicator: "prev", e_l: 0.19, e_h: 0.21, age: "<5", sex: "2"
                 },
                 {
-                    value: 0.9, indicator: "prev", e_l: 0.88, e_h: 0.92, age: "5-10", sex: "1", country: "1"
+                    value: 0.9, indicator: "prev", e_l: 0.88, e_h: 0.92, age: "5-10", sex: "1"
                 },
                 {
-                    value: 0.8, indicator: "prev", e_l: 0.78, e_h: 0.82, age: "5-10", sex: "2", country: "1"
+                    value: 0.8, indicator: "prev", e_l: 0.78, e_h: 0.82, age: "5-10", sex: "2"
                 }
             ],
             filterConfig: {
@@ -61,19 +62,15 @@
                         label: "Sex",
                         options: [{id: "1", label: "male"}, {id: "2", label: "female"}],
                         column_id: "sex"
-                    },
-                    {id: "country", label: "Country", options: [{id: "1", label: "AFG"}], column_id: "country"}]
+                    }
+                ]
             },
             indicators: [indicator],
             selections: {
                 indicatorId: "prev",
-                xAxisId: "country",
+                xAxisId: "age",
                 disaggregateById: "sex",
-                selectedFilterOptions: {
-                    "age": [{id: "<5", label: "<5"}],
-                    "sex": [{id: "1", label: "male"}, {id: "2", label: "female"}],
-                    "country": [{id: "1", label: "AFG"}]
-                }
+                selectedFilterOptions: {}
             }
         }
     });

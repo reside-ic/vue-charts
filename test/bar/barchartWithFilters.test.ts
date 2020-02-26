@@ -2,7 +2,7 @@ import Vue from 'vue';
 import {shallowMount, Wrapper} from "@vue/test-utils";
 
 import {data, filters} from "./utils.test";
-import BarChart from "../../src/bar/BarChart.vue";
+import BarChartWithFilters from "../../src/bar/BarChartWithFilters.vue";
 
 const propsData = {
     chartData: data,
@@ -47,10 +47,10 @@ const uninitializedSelections = {
 };
 
 const getWrapper = () => {
-    return shallowMount(BarChart, {propsData});
+    return shallowMount(BarChartWithFilters, {propsData});
 };
 
-const confirmFormGroup = (wrapper: Wrapper<BarChart>, elementId: string, label: string) => {
+const confirmFormGroup = (wrapper: Wrapper<BarChartWithFilters>, elementId: string, label: string) => {
     const fg = wrapper.find(elementId);
     expect(fg.find("label").text()).toBe(label);
     expect(fg.findAll("tree-select-stub").length).toBe(1);
@@ -169,7 +169,7 @@ describe("Barchart component", () => {
             ...propsData,
             selections: uninitializedSelections
         };
-        wrapper = shallowMount(BarChart, {propsData: props});
+        wrapper = shallowMount(BarChartWithFilters, {propsData: props});
         vm = (wrapper as any).vm;
         expect(vm.initialised).toBe(false);
     });
@@ -179,7 +179,7 @@ describe("Barchart component", () => {
             ...propsData,
             selections: uninitializedSelections
         };
-        const wrapper = shallowMount(BarChart, {propsData: props});
+        const wrapper = shallowMount(BarChartWithFilters, {propsData: props});
 
         expect(wrapper.findAll(".form-group").length).toBe(0);
         expect(wrapper.findAll("#chart").length).toBe(0);
@@ -190,7 +190,7 @@ describe("Barchart component", () => {
             ...propsData,
             selections: uninitializedSelections
         };
-        const wrapper = shallowMount(BarChart, {propsData: props});
+        const wrapper = shallowMount(BarChartWithFilters, {propsData: props});
 
         Vue.nextTick();
         expect(wrapper.emitted()["update"].length).toBe(4);
