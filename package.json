@@ -10,9 +10,10 @@
   },
   "files": [
     "/dist",
-    "/src"
+    "/src",
+    "index.d.ts"
   ],
-  "types": "src/index.d.ts",
+  "types": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/reside-ic/vue-charts.git"

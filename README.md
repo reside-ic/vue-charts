@@ -29,7 +29,7 @@
 ### Browser
 
 To use the dynamic form component directly in the browser, 
-just include `dist/js/vue-dynamic-form.min.js` on the page, after Vue and Chart.js:
+just include `dist/js/vue-charts.min.js` on the page, after Vue and Chart.js:
 
 ```
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
