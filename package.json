@@ -1,8 +1,8 @@
 {
   "name": "@reside-ic/vue-charts",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Vue components for data plotting",
-  "main": "index.js",
+  "main": "dist/js/index.js",
   "scripts": {
     "test": "jest -c jest.config.js",
     "sass": "gulp sass",
