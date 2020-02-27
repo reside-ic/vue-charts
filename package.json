@@ -1,6 +1,6 @@
 {
   "name": "@reside-ic/vue-charts",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Vue components for data plotting",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,8 @@
     "build": "webpack & gulp sass"
   },
   "files": [
-    "/dist"
+    "/dist",
+    "/src"
   ],
   "types": "src/index.d.ts",
   "repository": {
