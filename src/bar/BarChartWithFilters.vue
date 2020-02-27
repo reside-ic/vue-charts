@@ -51,16 +51,8 @@
     import TreeSelect from '@riophae/vue-treeselect';
     import BarChartWithErrors from "./BarChartWithErrors";
     import FilterSelect from "./FilterSelect.vue";
-    import {BarchartIndicator, BarchartSelections, Dict, Filter, FilterOption} from "./types";
+    import {BarchartIndicator, BarchartSelections, Dict, Filter, FilterConfig, FilterOption} from "./types";
     import {getProcessedOutputData, toFilterLabelLookup} from "./utils";
-
-    interface FilterConfig {
-        indicatorLabel?: string,
-        xAxisLabel?: string,
-        disaggLabel?: string,
-        filterLabel?: string
-        filters: Filter[]
-    }
 
     interface Props {
         chartData: any[],

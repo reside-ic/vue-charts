@@ -10,6 +10,14 @@ export interface Filter extends FilterOption {
     options: FilterOption[]
 }
 
+export interface FilterConfig {
+    indicatorLabel?: string,
+    xAxisLabel?: string,
+    disaggLabel?: string,
+    filterLabel?: string
+    filters: Filter[]
+}
+
 export interface BarchartSelections {
     indicatorId: string,
     xAxisId: string,
@@ -25,9 +33,4 @@ export interface BarchartIndicator {
     name: string,
     error_low_column: string,
     error_high_column: string
-}
-
-export interface NumericRange {
-    min: number,
-    max: number
 }
