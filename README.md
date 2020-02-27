@@ -7,16 +7,16 @@
   ```
 * Import into your project and register components globally or locally:
   ```
-  import {BarChart} from "@reside-ic/vue-dynamic-form"
+  import {BarChartWithFilters} from "@reside-ic/vue-charts"
   
   // global
-  Vue.component("bar-chart", BarChart)
+  Vue.component("bar-chart-with-filters", BarChartWithFilters)
   
   // or local
   new Vue({
     el: '#app',
     components: {
-      BarChart
+      BarChartWithFilters
     }
   })
   
