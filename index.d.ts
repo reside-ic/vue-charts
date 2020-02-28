@@ -1,45 +1,50 @@
 declare module "@reside-ic/vue-charts" {
-    import Vue from "vue";
-    
-    export class BarChartWithErrors extends Vue {}
-    export class BarChartWithFilters extends Vue {}
-    export class FilterSelect extends Vue {}
+}
 
-    type Dict<V> = { [k: string]: V }
+import Vue from "vue";
 
-    export interface FilterOption {
-        label: string;
-        id: string;
-    }
+export declare class BarChartWithErrors extends Vue {
+}
 
-    export interface Filter extends FilterOption {
-        column_id: string,
-        options: FilterOption[]
-    }
+export declare class BarChartWithFilters extends Vue {
+}
 
-    export interface FilterConfig {
-        indicatorLabel?: string,
-        xAxisLabel?: string,
-        disaggLabel?: string,
-        filterLabel?: string
-        filters: Filter[]
-    }
+export declare class FilterSelect extends Vue {
+}
 
-    export interface BarchartSelections {
-        indicatorId: string,
-        xAxisId: string,
-        disaggregateById: string,
-        selectedFilterOptions:  Dict<FilterOption[]>
-    }
+type Dict<V> = { [k: string]: V }
 
-    export interface BarchartIndicator {
-        indicator: string,
-        value_column: string,
-        indicator_column: string,
-        indicator_value: string,
-        name: string,
-        error_low_column: string,
-        error_high_column: string
-    }
+export interface FilterOption {
+    label: string;
+    id: string;
+}
 
+export interface Filter extends FilterOption {
+    column_id: string,
+    options: FilterOption[]
+}
+
+export interface FilterConfig {
+    indicatorLabel?: string,
+    xAxisLabel?: string,
+    disaggLabel?: string,
+    filterLabel?: string
+    filters: Filter[]
+}
+
+export interface BarchartSelections {
+    indicatorId: string,
+    xAxisId: string,
+    disaggregateById: string,
+    selectedFilterOptions: Dict<FilterOption[]>
+}
+
+export interface BarchartIndicator {
+    indicator: string,
+    value_column: string,
+    indicator_column: string,
+    indicator_value: string,
+    name: string,
+    error_low_column: string,
+    error_high_column: string
 }
