@@ -1,4 +1,5 @@
 # vue-charts
+[![Build Status](https://travis-ci.com/reside-ic/vue-charts.svg?branch=master)](https://travis-ci.com/reside-ic/vue-charts)
 
 ## Installation
 * Install from npm:
