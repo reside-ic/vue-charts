@@ -60,7 +60,8 @@ describe("chartjsBar component", () => {
 
         const newChartData = {
             ...propsData.chartData,
-            labels: ["group1"]
+            labels: ["group1"],
+            maxValuePlusError: 0.2
         };
         wrapper.setProps({
             ...propsData,
@@ -79,7 +80,8 @@ describe("chartjsBar component", () => {
                         labelString: "Y Axis"
                     },
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        suggestedMax: 0.2
                     }
                 }],
                 xAxes: [{

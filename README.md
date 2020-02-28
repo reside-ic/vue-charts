@@ -43,7 +43,7 @@ In this case the component will be automatically registered.
 ## Components
 ### BarChartWithErrors
 A simple extension of the `vue-chartjs` component which includes error bars.
-See [examples/barchart.html](examples/barchart.html).
+See [examples/barchart.html](https://reside-ic.github.io/vue-charts/examples/basicbarchart.html).
 
 ### BarChartWithFilters
 A fancier bar chart that gives the user control over what is plotted. At least 2 dimensions for filtering the data
@@ -156,7 +156,7 @@ Initially selected values for the x axis, disaggregation, and any filters:
 }
 ```
 
-For a full example see [examples/barchart.html](examples/barchart.html).
+For a full example see [examples/barchart.html](https://reside-ic.github.io/vue-charts/examples/barchart.html).
 
 
 

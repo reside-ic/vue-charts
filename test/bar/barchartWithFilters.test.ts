@@ -156,7 +156,8 @@ describe("Barchart component", () => {
                     data: [0.40],
                     errorBars: {"Northern": {plus: 0.43, minus: 0.38}}
                 }
-            ]
+            ],
+            maxValuePlusError: 0.43
         });
     });
 

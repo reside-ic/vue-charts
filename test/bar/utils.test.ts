@@ -89,7 +89,8 @@ describe("Barchart utils", () => {
                     data: [0.25],
                     errorBars: {"5-9": {plus: 0.28, minus: 0.21}}
                 }
-            ]
+            ],
+            maxValuePlusError: 0.28
         });
 
     });
@@ -110,7 +111,8 @@ describe("Barchart utils", () => {
                 "data": [],
                 "errorBars": {},
                 "label": "female",
-            }]
+            }],
+            maxValuePlusError: 0
         });
     });
 
