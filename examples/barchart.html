@@ -1,0 +1,79 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../dist/css/style.min.css"/>
+    <title>Vue bar chart with filters</title>
+</head>
+<body>
+
+<div id="app" class="container mt-5">
+    <h1 class="my-5">Bar chart with filters</h1>
+    <div class="row">
+        <bar-chart-with-filters :chart-data="chartData"
+                                :filter-config="filterConfig"
+                                :indicators="indicators"
+                                v-model="selections"></bar-chart-with-filters>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="../dist/js/vue-charts.min.js"></script>
+
+<script>
+
+    const indicator = {
+        indicator: "prev",
+        value_column: "value",
+        indicator_column: "indicator",
+        indicator_value: "prev",
+        name: "Prevalence",
+        error_low_column: "e_l",
+        error_high_column: "e_h"
+    };
+
+    new Vue({
+        el: "#app",
+        data: {
+            chartData: [
+                {
+                    value: 0.1, indicator: "prev", e_l: 0.09, e_h: 0.11, age: "<5", sex: "1"
+                },
+                {
+                    value: 0.2, indicator: "prev", e_l: 0.19, e_h: 0.21, age: "<5", sex: "2"
+                },
+                {
+                    value: 0.9, indicator: "prev", e_l: 0.88, e_h: 0.92, age: "5-10", sex: "1"
+                },
+                {
+                    value: 0.8, indicator: "prev", e_l: 0.78, e_h: 0.82, age: "5-10", sex: "2"
+                }
+            ],
+            filterConfig: {
+                filters: [
+                    {
+                        id: "age",
+                        label: "Age",
+                        options: [{id: "<5", label: "<5"}, {id: "5-10", label: "5-10"}],
+                        column_id: "age"
+                    },
+                    {
+                        id: "sex",
+                        label: "Sex",
+                        options: [{id: "1", label: "male"}, {id: "2", label: "female"}],
+                        column_id: "sex"
+                    }
+                ]
+            },
+            indicators: [indicator],
+            selections: {
+                indicatorId: "prev",
+                xAxisId: "age",
+                disaggregateById: "sex",
+                selectedFilterOptions: {}
+            }
+        }
+    });
+</script>
+</body>
+</html>

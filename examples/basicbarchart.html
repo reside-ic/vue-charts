@@ -1,0 +1,69 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../dist/css/style.min.css"/>
+    <title>Vue bar chart with error bars</title>
+</head>
+<body>
+<div id="app" class="container mt-5">
+    <h1 class="my-5">Bar chart with error bars</h1>
+    <div class="row">
+        <bar-chart-with-errors x-label="month" y-label="" :chart-data="chartData"></bar-chart-with-errors>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="../dist/js/vue-charts.min.js"></script>
+
+<script>
+
+    new Vue({
+        el: "#app",
+        data: {
+            chartData: {
+                labels: ["January", "February", "March"],
+                datasets: [{
+                    label: "My first dataset",
+                    backgroundColor: "pink",
+                    data: [50, 65, 48],
+                    errorBars: {
+                        "January": {
+                            plus: 45,
+                            minus: 55
+                        },
+                        "February": {
+                            plus: 60,
+                            minus: 67
+                        },
+                        "March": {
+                            plus: 46,
+                            minus: 50
+                        }
+                    }
+                },
+                    {
+                        label: "My second dataset",
+                        backgroundColor: "purple",
+                        data: [55, 63, 45],
+                        errorBars: {
+                            "January": {
+                                plus: 45,
+                                minus: 60
+                            },
+                            "February": {
+                                plus: 60,
+                                minus: 65
+                            },
+                            "March": {
+                                plus: 41,
+                                minus: 50
+                            }
+                        }
+                    }]
+            }
+        }
+    });
+</script>
+</body>
+</html>
