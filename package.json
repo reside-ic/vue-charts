@@ -11,7 +11,8 @@
   "files": [
     "/dist",
     "/src",
-    "index.d.ts"
+    "index.d.ts",
+    "vue-shims.d.ts"
   ],
   "types": "index.d.ts",
   "repository": {
