@@ -40,6 +40,7 @@
                         :chart-data="processedOutputData"
                         :xLabel="xAxisLabel"
                         :yLabel="indicatorLabel"
+                        :yFormat="formatValueFunction"
                         style="width: 100%; height: 100%;"></bar-chart-with-errors>
             </div>
         </div>
@@ -58,7 +59,8 @@
         chartData: any[],
         filterConfig: FilterConfig,
         indicators: BarchartIndicator[],
-        selections: BarchartSelections
+        selections: BarchartSelections,
+        formatFunction: (value: string | number, indicator: BarchartIndicator) => string
     }
 
     interface Methods {
@@ -81,7 +83,8 @@
         xAxisValues: string[]
         xAxisLabelLookup: { [key: string]: string }
         barLabelLookup: { [key: string]: string }
-        initialised: boolean
+        initialised: boolean,
+        formatValueFunction: (value: string | number) => string
     }
 
     const props = {
@@ -96,6 +99,9 @@
         },
         selections: {
             type: Object
+        },
+        formatFunction: {
+            type: Function
         }
     };
 
@@ -170,6 +176,13 @@
             },
             indicator() {
                 return this.indicators.find((i: BarchartIndicator) => i.indicator == this.selections.indicatorId)!!
+            },
+            formatValueFunction() {
+                if (this.formatFunction) {
+                    return (value: string | number) => this.formatFunction(value, this.indicator);
+                } else {
+                    return (value: string | number) => value;
+                }
             },
             initialised() {
                 const unsetFilters = this.filterConfig.filters.filter((f: Filter) => !this.selections.selectedFilterOptions[f.id]);

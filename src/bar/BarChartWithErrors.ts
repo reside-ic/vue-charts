@@ -16,6 +16,9 @@ export default class BarChartWithErrors extends mixins(Bar) {
     @Prop()
     yLabel!: string;
 
+    @Prop()
+    yFormat!: (value: number | string) => string;
+
     updateRender() {
         (this as Bar).addPlugin(ErrorBarsPlugin);
         (this as Bar).renderChart(this.chartData, {
@@ -27,7 +30,8 @@ export default class BarChartWithErrors extends mixins(Bar) {
                     },
                     ticks: {
                         suggestedMax: this.chartData.maxValuePlusError,
-                        beginAtZero: true
+                        beginAtZero: true,
+                        callback: this.yFormat
                     }
                 }],
                 xAxes: [{
