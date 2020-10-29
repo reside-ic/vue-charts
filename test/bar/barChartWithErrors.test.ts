@@ -4,9 +4,11 @@ import BarChartWithErrors from "../../src/bar/BarChartWithErrors";
 
 describe("chartjsBar component", () => {
 
+    const formatFunc = (value: string | number ) => "Value " + value.toString();
     const propsData = {
         xLabel: "X Axis",
         yLabel: "Y Axis",
+        yFormat: formatFunc,
         chartData: {
             labels: ["group1", "group2"],
             datasets:[
@@ -72,37 +74,44 @@ describe("chartjsBar component", () => {
 
         expect(mockRenderChart.mock.calls.length).toBe(1);
         expect(mockRenderChart.mock.calls[0][0]).toBe(newChartData);
-        expect(mockRenderChart.mock.calls[0][1]).toStrictEqual({
-            scales: {
-                yAxes: [{
-                    scaleLabel: {
-                        display: true,
-                        labelString: "Y Axis"
-                    },
-                    ticks: {
-                        beginAtZero: true,
-                        suggestedMax: 0.2
-                    }
-                }],
-                xAxes: [{
-                    scaleLabel: {
-                        display: true,
-                        labelString: "X Axis"
-                    }
-                }]
-            },
-            legend: {
-                position: "right",
-            },
-            responsive:true,
-            maintainAspectRatio: false,
-            plugins: {
-                chartJsPluginErrorBars: {
-                    color: '#000',
-                    width: '2px',
-                    lineWidth: '2px',
-                    absoluteValues: true
+
+        const renderedConfig = mockRenderChart.mock.calls[0][1];
+        expect(renderedConfig.scales).toStrictEqual({
+            yAxes: [{
+                scaleLabel: {
+                    display: true,
+                    labelString: "Y Axis"
+                },
+                ticks: {
+                    beginAtZero: true,
+                    suggestedMax: 0.2,
+                    callback: formatFunc
                 }
+            }],
+                xAxes: [{
+                scaleLabel: {
+                    display: true,
+                    labelString: "X Axis"
+                }
+            }]
+        });
+        expect(renderedConfig.legend).toStrictEqual({
+            position: "right",
+        });
+
+        //Test that the callback to construct the label based on the format func behaves as expected
+        const tooltipLabelCallback = renderedConfig.tooltips.callbacks.label;
+        const renderedLabel = tooltipLabelCallback({datasetIndex: 0, yLabel: 2}, newChartData);
+        expect(renderedLabel).toBe("dataset1: Value 2");
+
+        expect(renderedConfig.responsive).toBe(true);
+        expect(renderedConfig.maintainAspectRatio).toBe(false);
+        expect(renderedConfig.plugins).toStrictEqual({
+            chartJsPluginErrorBars: {
+                color: '#000',
+                width: '2px',
+                lineWidth: '2px',
+                absoluteValues: true
             }
         });
 

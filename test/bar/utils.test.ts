@@ -55,7 +55,10 @@ describe("Barchart utils", () => {
         indicator_value: "2",
         name: "ART coverage",
         error_low_column: "low",
-        error_high_column: "high"
+        error_high_column: "high",
+        format: "0.00",
+        scale: 1,
+        accuracy: null
     };
 
     const selectedFilterValues = {
