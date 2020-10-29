@@ -158,6 +158,13 @@ Initially selected values for the x axis, disaggregation, and any filters:
 
 For a full example see [examples/barchart.html](https://reside-ic.github.io/vue-charts/examples/barchart.html).
 
+ ## Development
+  * To run unit tests with jest: `npm test`
+  * To build distribution files: `npm run build`
+  * To publish to npm: 
+      * first iterate the version in `package.json`
+      * then `npm publish --access public`
+
 
 
 

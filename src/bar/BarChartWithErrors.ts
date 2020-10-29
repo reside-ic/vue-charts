@@ -49,12 +49,15 @@ export default class BarChartWithErrors extends mixins(Bar) {
             tooltips: {
                 callbacks: {
                     label: function(tooltipItem, data) {
-                        let label = data.datasets!![tooltipItem.datasetIndex!!].label || ''; //TODO: sotry out the maybes here
-
+                        let label = ((typeof tooltipItem.datasetIndex !== "undefined") && data.datasets && data.datasets[tooltipItem.datasetIndex].label)
+                                        || '';
                         if (label) {
                             label += ': ';
                         }
-                        label += formatCallback(tooltipItem.yLabel!!);
+
+                        if (tooltipItem.yLabel) {
+                            label += formatCallback(tooltipItem.yLabel);
+                        }
                         return label;
                     }
                 }
