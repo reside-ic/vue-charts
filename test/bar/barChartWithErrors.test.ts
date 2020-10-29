@@ -116,4 +116,36 @@ describe("chartjsBar component", () => {
         });
 
     });
+
+    it("tooltip label callback deals with incomplete parameters", async () => {
+        const wrapper = getWrapper();
+        const mockRenderChart = jest.fn();
+        const vm = (wrapper as any).vm;
+        vm.renderChart = mockRenderChart;
+
+        const newChartData = {
+            ...propsData.chartData,
+        };
+        wrapper.setProps({
+            ...propsData,
+            chartData: newChartData
+        });
+
+        await Vue.nextTick();
+
+        const renderedConfig = mockRenderChart.mock.calls[0][1];
+        const tooltipLabelCallback = renderedConfig.tooltips.callbacks.label;
+
+        //tooltipItem.datasetIndex is undefined
+        let renderedLabel = tooltipLabelCallback({yLabel: 2}, newChartData);
+        expect(renderedLabel).toBe("Value 2");
+
+        //data.datasets is undefined
+        renderedLabel = tooltipLabelCallback({datasetIndex: 0, yLabel: 2}, {});
+        expect(renderedLabel).toBe("Value 2");
+
+        //tooltip.yLabel is undefined - returns dataseries label
+        renderedLabel = tooltipLabelCallback({datasetIndex: 0}, newChartData);
+        expect(renderedLabel).toBe("dataset1: ");
+    });
 });
