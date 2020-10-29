@@ -181,7 +181,7 @@
                 if (this.formatFunction) {
                     return (value: string | number) => this.formatFunction(value, this.indicator);
                 } else {
-                    return (value: string | number) => value;
+                    return (value: string | number) => value.toString();
                 }
             },
             initialised() {

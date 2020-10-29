@@ -21,6 +21,8 @@ export default class BarChartWithErrors extends mixins(Bar) {
 
     updateRender() {
         (this as Bar).addPlugin(ErrorBarsPlugin);
+
+        const formatCallback = this.yFormat || ((value: number | string) => value);
         (this as Bar).renderChart(this.chartData, {
             scales: {
                 yAxes: [{
@@ -31,7 +33,7 @@ export default class BarChartWithErrors extends mixins(Bar) {
                     ticks: {
                         suggestedMax: this.chartData.maxValuePlusError,
                         beginAtZero: true,
-                        callback: this.yFormat
+                        callback: formatCallback
                     }
                 }],
                 xAxes: [{
@@ -43,6 +45,19 @@ export default class BarChartWithErrors extends mixins(Bar) {
             },
             legend: {
                 position: "right",
+            },
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        let label = data.datasets!![tooltipItem.datasetIndex!!].label || ''; //TODO: sotry out the maybes here
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        label += formatCallback(tooltipItem.yLabel!!);
+                        return label;
+                    }
+                }
             },
             responsive: true,
             maintainAspectRatio: false,
