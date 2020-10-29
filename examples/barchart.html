@@ -12,6 +12,7 @@
         <bar-chart-with-filters :chart-data="chartData"
                                 :filter-config="filterConfig"
                                 :indicators="indicators"
+                                :format-function="formatFunction"
                                 v-model="selections"></bar-chart-with-filters>
     </div>
 </div>
@@ -71,7 +72,8 @@
                 xAxisId: "age",
                 disaggregateById: "sex",
                 selectedFilterOptions: {}
-            }
+            },
+            formatFunction: (value, indicator) => `Value${value}`
         }
     });
 </script>
