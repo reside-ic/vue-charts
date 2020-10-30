@@ -19,7 +19,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 <script src="../dist/js/vue-charts.min.js"></script>
 
 <script>
@@ -78,9 +78,7 @@
                 selectedFilterOptions: {}
             },
             formatFunction: (value, indicator) => {
-                const format = indicator.format;
-                const scale = indicator.scale;
-                const accuracy = indicator.accuracy;
+                const {format, scale, accuracy} = indicator;
 
                 let ans;
 
