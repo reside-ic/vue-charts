@@ -169,7 +169,7 @@ used to format the given indicator values for display on the barchart y-axis and
 
 For a full example see [examples/barchart.html](https://reside-ic.github.io/vue-charts/examples/barchart.html).
 
- ## Development
+## Development
   * To run unit tests with jest: `npm test`
   * To build distribution files: `npm run build`
   * To publish to npm: 
