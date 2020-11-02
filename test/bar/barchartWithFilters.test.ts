@@ -3,6 +3,12 @@ import {shallowMount, Wrapper} from "@vue/test-utils";
 
 import {data, filters} from "./utils.test";
 import BarChartWithFilters from "../../src/bar/BarChartWithFilters.vue";
+import BarChartWithErrors from "../../src/bar/BarChartWithErrors";
+import {BarchartIndicator} from "../../src/bar/types";
+
+const formatFunction = (value: string | number, indicator: BarchartIndicator) => {
+    return `Value: ${value}, Indicator: ${indicator.indicator}`;
+};
 
 const propsData = {
     chartData: data,
@@ -36,7 +42,8 @@ const propsData = {
             age: [{id: "0:4", label: "0-4"}],
             sex: [{id: "female", label: "female"}]
         }
-    }
+    },
+    formatFunction
 };
 
 const uninitializedSelections = {
@@ -159,6 +166,16 @@ describe("Barchart component", () => {
             ],
             maxValuePlusError: 0.43
         });
+    });
+
+    it("computes formatValueFunction and renders on BarChartWithErrors", () => {
+        const wrapper = getWrapper();
+        const vm = (wrapper as any).vm;
+
+        const formatValueFunction = vm.formatValueFunction;
+        expect(formatValueFunction(99)).toBe("Value: 99, Indicator: art_cov");
+
+        expect(wrapper.find(BarChartWithErrors).props().yFormat).toBe(formatValueFunction);
     });
 
     it("computes initialised", () => {

@@ -102,7 +102,10 @@ The indicators prop contains metadata about the data array. It specifies the nam
         indicator_column: "indicator", // field that specifies the meaning of the value
         indicator_value: "prev", // name of this metric
         error_low_column: "e_l", // field containing the lower bound
-        error_high_column: "e_h" // field containing the upper bound
+        error_high_column: "e_h", // field containing the upper bound
+        format: "0.00", //format string which may allow formatFunction to format indicator values for display
+        scale: 1, //scaling factor which formatFunction may use to adjust indicator values for display
+        accuracy: null //optional accuracy value which formatFunction may use to round indicator values for display
 },
 {
         indicator: "inc",
@@ -111,7 +114,10 @@ The indicators prop contains metadata about the data array. It specifies the nam
         indicator_column: "indicator",
         indicator_value: "inc",
         error_low_column: "e_l",
-        error_high_column: "e_h"
+        error_high_column: "e_h",
+        format: "0.00",
+        scale: 1,
+        accuracy
 }]
 ```
 
@@ -156,7 +162,19 @@ Initially selected values for the x axis, disaggregation, and any filters:
 }
 ```
 
+
+#### formatFunction
+Optional function of type `(value: string | number, indicator: BarchartIndicator) => string`. If provided, this will be
+used to format the given indicator values for display on the barchart y-axis and tooltips.  
+
 For a full example see [examples/barchart.html](https://reside-ic.github.io/vue-charts/examples/barchart.html).
+
+## Development
+  * To run unit tests with jest: `npm test`
+  * To build distribution files: `npm run build`
+  * To publish to npm: 
+      * first iterate the version in `package.json`
+      * then `npm publish --access public`
 
 
 

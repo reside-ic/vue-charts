@@ -12,12 +12,14 @@
         <bar-chart-with-filters :chart-data="chartData"
                                 :filter-config="filterConfig"
                                 :indicators="indicators"
+                                :format-function="formatFunction"
                                 v-model="selections"></bar-chart-with-filters>
     </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 <script src="../dist/js/vue-charts.min.js"></script>
 
 <script>
@@ -29,7 +31,10 @@
         indicator_value: "prev",
         name: "Prevalence",
         error_low_column: "e_l",
-        error_high_column: "e_h"
+        error_high_column: "e_h",
+        format: "0%",
+        scale: 1,
+        accuracy: null
     };
 
     new Vue({
@@ -71,6 +76,27 @@
                 xAxisId: "age",
                 disaggregateById: "sex",
                 selectedFilterOptions: {}
+            },
+            formatFunction: (value, indicator) => {
+                const {format, scale, accuracy} = indicator;
+
+                let ans;
+
+                if (typeof(value) === 'string'){
+                    ans = parseFloat(value)
+                } else ans = value;
+
+                if (!format.includes('%') && scale){
+                    ans = ans * scale;
+                }
+
+                if (!format.includes('%') && accuracy){
+                    ans = Math.round(ans / accuracy) * accuracy;
+                }
+
+                if (format){
+                    return numeral(ans).format(format)
+                } else return ans
             }
         }
     });
