@@ -13,6 +13,8 @@
                                 :filter-config="filterConfig"
                                 :indicators="indicators"
                                 :format-function="formatFunction"
+                                :x-axis-config="xAxisConfig"
+                                :disaggregate-by-config="disaggregateByConfig"
                                 v-model="selections"></bar-chart-with-filters>
     </div>
 </div>
@@ -97,7 +99,9 @@
                 if (format){
                     return numeral(ans).format(format)
                 } else return ans
-            }
+            },
+            xAxisConfig: {fixed: false, hideFilter: false},
+            disaggregateByConfig: {fixed: false, hideFilter: false}
         }
     });
 </script>
