@@ -10,14 +10,14 @@
                                  v-model="indicatorId"
                                  :normalizer="normalizeIndicators"></tree-select>
                 </div>
-                <div id="x-axis-fg" class="form-group">
+                <div v-if="!(xAxisConfig && xAxisConfig.fixed)" id="x-axis-fg" class="form-group">
                     <label class="font-weight-bold">{{filterConfig.xAxisLabel || "X Axis"}}</label>
                     <tree-select :multiple=false
                                  :clearable="false"
                                  :options="filtersAsOptions"
                                  v-model="xAxisId"></tree-select>
                 </div>
-                <div id="disagg-fg" class="form-group">
+                <div v-if="!(disaggregateByConfig && disaggregateByConfig.fixed)" id="disagg-fg" class="form-group">
                     <label class="font-weight-bold">{{filterConfig.disaggLabel || "Disaggregate by"}}</label>
                     <tree-select :multiple=false
                                  :clearable="false"
@@ -25,8 +25,11 @@
                                  v-model="disaggregateById"></tree-select>
                 </div>
                 <hr/>
-                <h3>{{filterConfig.filterLabel || "Filters"}}</h3>
-                <div :id="'filter-' + filter.id" v-for="filter in filterConfig.filters" class="form-group">
+                <h3 v-if="anyFiltersShown">{{filterConfig.filterLabel || "Filters"}}</h3>
+                <div :id="'filter-' + filter.id"
+                     v-for="filter in filterConfig.filters"
+                     v-if="filterIsShown(filter.id)"
+                     class="form-group">
                     <filter-select :value="getSelectedFilterOptions(filter.id)"
                                    :is-disaggregate-by="filter.id === selections.disaggregateById"
                                    :is-x-axis="filter.id === selections.xAxisId"
@@ -52,7 +55,7 @@
     import TreeSelect from '@riophae/vue-treeselect';
     import BarChartWithErrors from "./BarChartWithErrors";
     import FilterSelect from "./FilterSelect.vue";
-    import {BarchartIndicator, BarchartSelections, Dict, Filter, FilterConfig, FilterOption} from "./types";
+    import {AxisConfig, BarchartIndicator, BarchartSelections, Dict, Filter, FilterConfig, FilterOption} from "./types";
     import {getProcessedOutputData, toFilterLabelLookup} from "./utils";
 
     interface Props {
@@ -60,7 +63,9 @@
         filterConfig: FilterConfig,
         indicators: BarchartIndicator[],
         selections: BarchartSelections,
-        formatFunction: (value: string | number, indicator: BarchartIndicator) => string
+        formatFunction: (value: string | number, indicator: BarchartIndicator) => string,
+        xAxisConfig: AxisConfig | null,
+        disaggregateByConfig: AxisConfig | null
     }
 
     interface Methods {
@@ -68,6 +73,7 @@
         changeSelections: (newSelections: Partial<BarchartSelections>) => void,
         changeFilter: (filterId: any, selectedOptions: any) => void,
         getSelectedFilterOptions: (filterId: string) => FilterOption[],
+        filterIsShown: (filterId: string) => boolean
     }
 
     interface Computed {
@@ -84,7 +90,8 @@
         xAxisLabelLookup: { [key: string]: string }
         barLabelLookup: { [key: string]: string }
         initialised: boolean,
-        formatValueFunction: (value: string | number) => string
+        formatValueFunction: (value: string | number) => string,
+        anyFiltersShown: boolean
     }
 
     const props = {
@@ -102,6 +109,12 @@
         },
         formatFunction: {
             type: Function
+        },
+        xAxisConfig: {
+            type: Object
+        },
+        disaggregateByConfig: {
+            type: Object
         }
     };
 
@@ -188,6 +201,9 @@
                 const unsetFilters = this.filterConfig.filters.filter((f: Filter) => !this.selections.selectedFilterOptions[f.id]);
                 return !!this.selections.indicatorId && !!this.selections.xAxisId && !!this.selections.disaggregateById
                     && unsetFilters.length == 0;
+            },
+            anyFiltersShown() {
+                return this.filterConfig.filters.some((f: Filter) => this.filterIsShown(f.id));
             }
         },
         methods: {
@@ -205,6 +221,13 @@
             },
             getSelectedFilterOptions(filterId: string) {
                 return (this.selections.selectedFilterOptions[filterId]) || [];
+            },
+            filterIsShown(filterId: string) {
+                const filterHiddenForConfig = (config: AxisConfig | null, relevantFilterId: string) => {
+                    return (filterId === relevantFilterId) && config && config.hideFilter;
+                };
+                return !filterHiddenForConfig(this.xAxisConfig, this.xAxisId) &&
+                    !filterHiddenForConfig(this.disaggregateByConfig, this.disaggregateById);
             }
         },
         created() {

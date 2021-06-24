@@ -169,6 +169,29 @@ used to format the given indicator values for display on the barchart y-axis and
 
 For a full example see [examples/barchart.html](https://reside-ic.github.io/vue-charts/examples/barchart.html).
 
+#### xAxisConfig
+Optional configuration specifying whether the x axis should be fixed (i.e. the user cannot select a different filter
+from the default to use for the x axis) and whether the x axis filter should be hidden so the user cannot edit the selected
+values. Both `fixed` and `hideFilter` default to `false`.
+```
+{
+    fixed: true,
+    hideFilter: false
+}
+```
+
+#### disaggregateByConfig
+Optional configuration specifying whether the 'disaggregate by' value should be fixed (i.e. the user cannot select a different filter
+from the default to use for disaggregation) and whether the disaggregate by filter should be hidden so the user cannot edit the selected
+values. Both `fixed` and `hideFilter` default to `false`.
+```
+{
+    fixed: true,
+    hideFilter: false
+}
+```  
+
+
 ## Development
   * To run unit tests with jest: `npm test`
   * To build distribution files: `npm run build`

@@ -37,3 +37,8 @@ export interface BarchartIndicator {
     scale: number,
     accuracy: number | null
 }
+
+export interface AxisConfig {
+    fixed: boolean,
+    hideFilter: boolean
+}

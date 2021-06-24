@@ -43,7 +43,9 @@ const propsData = {
             sex: [{id: "female", label: "female"}]
         }
     },
-    formatFunction
+    formatFunction,
+    xAxisConfig: {fixed: false, hideFilter: false},
+    disaggregateByConfig: {fixed: false, hideFilter: false}
 };
 
 const uninitializedSelections = {
@@ -86,6 +88,14 @@ describe("Barchart component", () => {
         const chart = wrapper.find("#chart bar-chart-with-errors-stub");
         expect(chart.attributes("xlabel")).toBe("Region");
         expect(chart.attributes("ylabel")).toBe("ART coverage");
+
+        const xAxis = wrapper.find("#x-axis-fg");
+        expect(xAxis.find("label").text()).toBe("X Axis");
+        expect(xAxis.find("tree-select-stub").attributes("value")).toBe("region");
+
+        const disagg = wrapper.find("#disagg-fg");
+        expect(disagg.find("label").text()).toBe("Disaggregate by");
+        expect(disagg.find("tree-select-stub").attributes("value")).toBe("age");
     });
 
     it("computes x axis label", () => {
@@ -276,5 +286,93 @@ describe("Barchart component", () => {
 
         const expected = {...propsData.selections, selectedFilterOptions: expectedSelectedFilterOptions};
         expect(wrapper.emitted()["update"][0][0]).toStrictEqual(expected);
+    });
+
+    it("hides x axis controls when x axis should be fixed", () => {
+        const wrapper = shallowMount(BarChartWithFilters, {
+            propsData: {
+                ...propsData,
+                xAxisConfig: {fixed: true, hideFilter: false}
+            },
+        });
+
+        expect(wrapper.find("#x-axis-fg").exists()).toBe(false);
+        expect(wrapper.find("#disagg-fg").exists()).toBe(true);
+    });
+
+    it("hides disaggregated by controls when disaggregated by should be fixed", () => {
+        const wrapper = shallowMount(BarChartWithFilters, {
+            propsData: {
+                ...propsData,
+                disaggregateByConfig: {fixed: true, hideFilter: false}
+            },
+        });
+
+        expect(wrapper.find("#x-axis-fg").exists()).toBe(true);
+        expect(wrapper.find("#disagg-fg").exists()).toBe(false);
+    });
+
+    it("can hide x axis filter", () => {
+        const wrapper = shallowMount(BarChartWithFilters, {
+            propsData: {
+                ...propsData,
+                xAxisConfig: {fixed: true, hideFilter: true}
+            },
+        });
+        expect(wrapper.find("#filter-region").exists()).toBe(false);
+        expect(wrapper.find("#filter-age").exists()).toBe(true);
+    });
+
+    it("can hide disaggregated by filter", () => {
+        const wrapper = shallowMount(BarChartWithFilters, {
+            propsData: {
+                ...propsData,
+                disaggregateByConfig: {fixed: true, hideFilter: true}
+            },
+        });
+        expect(wrapper.find("#filter-region").exists()).toBe(true);
+        expect(wrapper.find("#filter-age").exists()).toBe(false);
+    });
+
+    it("defaults all axis config to false when props are null", () => {
+        const wrapper = shallowMount(BarChartWithFilters, {
+            propsData: {
+                ...propsData,
+                xAxisConfig: null,
+                disaggregateByConfig: null
+            },
+        });
+        expect(wrapper.find("#x-axis-fg").exists()).toBe(true);
+        expect(wrapper.find("#disagg-fg").exists()).toBe(true);
+        expect(wrapper.find("#filter-region").exists()).toBe(true);
+        expect(wrapper.find("#filter-age").exists()).toBe(true);
+    });
+
+    it("hides Filters header when all filters are hidden", () => {
+        const wrapper = shallowMount(BarChartWithFilters, {
+            propsData: {
+                ...propsData,
+                filterConfig: {
+                    filters: [
+                        filters[0],
+                        filters[1]
+                    ]
+                },
+                xAxisConfig: {fixed: true, hideFilter: true},
+                disaggregateByConfig: {fixed: true, hideFilter: true}
+            },
+        });
+        expect(wrapper.find("h3").exists()).toBe(false);
+    });
+
+    it("does not hide Filters header when not all filters are hidden", () => {
+        const wrapper = shallowMount(BarChartWithFilters, {
+            propsData: {
+                ...propsData,
+                xAxisConfig: {fixed: true, hideFilter: true},
+                disaggregateByConfig: {fixed: true, hideFilter: true}
+            },
+        });
+        expect(wrapper.find("h3").text()).toBe("Filters");
     });
 });
