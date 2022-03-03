@@ -73,6 +73,7 @@ export default class BarChartWithErrors extends mixins(Bar) {
                         interface ChartDataSetsWithErrors extends ChartDataSets {
                             errorBars?: ErrorBars
                         }
+
                         let minus = null
                         let plus = null
 
@@ -81,14 +82,12 @@ export default class BarChartWithErrors extends mixins(Bar) {
                             if (errorBars && errorBars[tooltipItem.xLabel]) {
                                 minus = errorBars[tooltipItem.xLabel].minus
                                 plus = errorBars[tooltipItem.xLabel].plus
-                                console.log("pm", plus, minus, errorBars)
                             }
                         }
                         if (minus && plus) {
                             label = `${label} (${formatCallback(minus)} - ${formatCallback(plus)})`
                         }
 
-                        console.log("label", label)
                         return label;
                     }
                 }
