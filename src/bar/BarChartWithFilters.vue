@@ -44,6 +44,7 @@
                         :xLabel="xAxisLabel"
                         :yLabel="indicatorLabel"
                         :yFormat="formatValueFunction"
+                        :show-errors="showErrorsInTooltip"
                         style="width: 100%; height: 100%;"></bar-chart-with-errors>
             </div>
         </div>
@@ -64,6 +65,7 @@
         indicators: BarchartIndicator[],
         selections: BarchartSelections,
         formatFunction: (value: string | number, indicator: BarchartIndicator) => string,
+        showErrorsInTooltip: boolean,
         xAxisConfig: AxisConfig | null,
         disaggregateByConfig: AxisConfig | null
     }
@@ -115,6 +117,10 @@
         },
         disaggregateByConfig: {
             type: Object
+        },
+        showErrorsInTooltip: {
+            type: Boolean,
+            default: false
         }
     };
 
@@ -192,7 +198,11 @@
             },
             formatValueFunction() {
                 if (this.formatFunction) {
-                    return (value: string | number) => this.formatFunction(value, this.indicator);
+                    // if (this.showErrorsInTooltip){
+
+                    // } else {
+                        return (value: string | number) => this.formatFunction(value, this.indicator);
+                    // }
                 } else {
                     return (value: string | number) => value.toString();
                 }

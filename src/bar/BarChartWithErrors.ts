@@ -20,6 +20,9 @@ export default class BarChartWithErrors extends mixins(Bar) {
     @Prop()
     yFormat!: (value: number | string) => string;
 
+    @Prop()
+    showErrors!: boolean;
+
     updateRender() {
         (this as Bar).addPlugin(ErrorBarsPlugin);
 
@@ -70,14 +73,21 @@ export default class BarChartWithErrors extends mixins(Bar) {
                         interface ChartDataSetsWithErrors extends ChartDataSets {
                             errorBars?: ErrorBars
                         }
-                        if (tooltipItem.xLabel && typeof tooltipItem.datasetIndex !== "undefined" && data.datasets && data.datasets[tooltipItem.datasetIndex]) {
+                        let minus = null
+                        let plus = null
+
+                        if (this.showErrors && tooltipItem.xLabel && typeof tooltipItem.datasetIndex !== "undefined" && data.datasets && data.datasets[tooltipItem.datasetIndex]) {
                             const errorBars = (data.datasets[tooltipItem.datasetIndex] as ChartDataSetsWithErrors).errorBars
                             if (errorBars && errorBars[tooltipItem.xLabel]) {
-                                const minus = errorBars[tooltipItem.xLabel].minus
-                                const plus = errorBars[tooltipItem.xLabel].plus
+                                minus = errorBars[tooltipItem.xLabel].minus
+                                plus = errorBars[tooltipItem.xLabel].plus
                                 console.log("pm", plus, minus, errorBars)
                             }
                         }
+                        if (minus && plus) {
+                            label = `${label} (${formatCallback(minus)} - ${formatCallback(plus)})`
+                        }
+
                         console.log("label", label)
                         return label;
                     }
