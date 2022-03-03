@@ -45,7 +45,7 @@ const propsData = {
     },
     formatFunction,
     xAxisConfig: {fixed: false, hideFilter: false},
-    disaggregateByConfig: {fixed: false, hideFilter: false}
+    disaggregateByConfig: { fixed: false, hideFilter: false }
 };
 
 const uninitializedSelections = {
@@ -180,6 +180,20 @@ describe("Barchart component", () => {
 
     it("computes formatValueFunction and renders on BarChartWithErrors", () => {
         const wrapper = getWrapper();
+        const vm = (wrapper as any).vm;
+
+        const formatValueFunction = vm.formatValueFunction;
+        expect(formatValueFunction(99)).toBe("Value: 99, Indicator: art_cov");
+
+        expect(wrapper.find(BarChartWithErrors).props().yFormat).toBe(formatValueFunction);
+    });
+
+    it("computes formatValueFunction and renders on BarChartWithErrors with showRangesInTooltips prop", () => {
+        const props = {
+            ...propsData,
+            showRangesInTooltips: true
+        };
+        const wrapper = shallowMount(BarChartWithFilters, { propsData: props });
         const vm = (wrapper as any).vm;
 
         const formatValueFunction = vm.formatValueFunction;
