@@ -3,7 +3,7 @@ import ErrorBarsPlugin from 'chartjs-plugin-error-bars'
 import Component, {mixins} from "vue-class-component";
 import {Prop, Watch} from "vue-property-decorator";
 import {BarChartData} from "./utils";
-import { ChartDataSets } from 'chart.js';
+import { ChartDataSetsWithErrors } from "./types"
 
 @Component
 export default class BarChartWithErrors extends mixins(Bar) {
@@ -63,28 +63,18 @@ export default class BarChartWithErrors extends mixins(Bar) {
                             label += formatCallback(tooltipItem.yLabel);
                         }
 
-                        interface ErrorBars {
-                            [xLabel: string]: {
-                                minus: number
-                                plus: number
-                            }
-                        }
-
-                        interface ChartDataSetsWithErrors extends ChartDataSets {
-                            errorBars?: ErrorBars
-                        }
-
                         let minus = null
                         let plus = null
 
                         if (this.showErrors && tooltipItem.xLabel && typeof tooltipItem.datasetIndex !== "undefined" && data.datasets && data.datasets[tooltipItem.datasetIndex]) {
                             const errorBars = (data.datasets[tooltipItem.datasetIndex] as ChartDataSetsWithErrors).errorBars
-                            if (errorBars && errorBars[tooltipItem.xLabel]) {
-                                minus = errorBars[tooltipItem.xLabel].minus
-                                plus = errorBars[tooltipItem.xLabel].plus
+                            const xLabelErrorBars = errorBars ? errorBars[tooltipItem.xLabel] : null
+                            if (xLabelErrorBars) {
+                                minus = xLabelErrorBars.minus
+                                plus = xLabelErrorBars.plus
                             }
                         }
-                        if (minus && plus) {
+                        if ((minus || minus === 0) && (plus || plus === 0)) {
                             label = `${label} (${formatCallback(minus)} - ${formatCallback(plus)})`
                         }
 

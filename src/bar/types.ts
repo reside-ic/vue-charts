@@ -1,3 +1,6 @@
+
+import { ChartDataSets } from 'chart.js';
+
 export type Dict<V> = { [k: string]: V }
 
 export interface FilterOption {
@@ -41,4 +44,15 @@ export interface BarchartIndicator {
 export interface AxisConfig {
     fixed: boolean,
     hideFilter: boolean
+}
+
+export interface ErrorBars {
+    [xLabel: string]: {
+        minus: number
+        plus: number
+    }
+}
+
+export interface ChartDataSetsWithErrors extends ChartDataSets {
+    errorBars?: ErrorBars
 }
