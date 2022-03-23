@@ -72,8 +72,11 @@ export default class BarChartWithErrors extends mixins(Bar) {
                             if (xLabelErrorBars) {
                                 minus = xLabelErrorBars.minus
                                 plus = xLabelErrorBars.plus
-                                label = `${label} (${formatCallback(minus)} - ${formatCallback(plus)})`
                             }
+                        }
+
+                        if ((typeof minus === "number") && (typeof plus === "number")) {
+                            label = `${label} (${formatCallback(minus)} - ${formatCallback(plus)})`
                         }
 
                         return label;

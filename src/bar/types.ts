@@ -48,8 +48,8 @@ export interface AxisConfig {
 
 export interface ErrorBars {
     [xLabel: string]: {
-        minus: number
-        plus: number
+        minus: number | null | undefined
+        plus: number | null | undefined
     }
 }
 
