@@ -44,6 +44,7 @@
                         :xLabel="xAxisLabel"
                         :yLabel="indicatorLabel"
                         :yFormat="formatValueFunction"
+                        :show-errors="showRangesInTooltips"
                         style="width: 100%; height: 100%;"></bar-chart-with-errors>
             </div>
         </div>
@@ -64,6 +65,7 @@
         indicators: BarchartIndicator[],
         selections: BarchartSelections,
         formatFunction: (value: string | number, indicator: BarchartIndicator) => string,
+        showRangesInTooltips: boolean,
         xAxisConfig: AxisConfig | null,
         disaggregateByConfig: AxisConfig | null
     }
@@ -115,6 +117,10 @@
         },
         disaggregateByConfig: {
             type: Object
+        },
+        showRangesInTooltips: {
+            type: Boolean,
+            default: false
         }
     };
 

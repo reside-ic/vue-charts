@@ -165,7 +165,8 @@ Initially selected values for the x axis, disaggregation, and any filters:
 
 #### formatFunction
 Optional function of type `(value: string | number, indicator: BarchartIndicator) => string`. If provided, this will be
-used to format the given indicator values for display on the barchart y-axis and tooltips.  
+used to format the given indicator values for display on the barchart y-axis and tooltips. The tooltips can also show
+the ranges of the error bars by setting the optional prop `showRangesInTooltips` to true (this is false by default).
 
 For a full example see [examples/barchart.html](https://reside-ic.github.io/vue-charts/examples/barchart.html).
 

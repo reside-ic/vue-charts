@@ -1,8 +1,14 @@
 import Vue from "vue";
 import {shallowMount} from "@vue/test-utils";
 import BarChartWithErrors from "../../src/bar/BarChartWithErrors";
+import { ErrorBars } from "../../src/bar/types"
 
 describe("chartjsBar component", () => {
+
+    const errorBars: ErrorBars = {
+        "group1": { plus: 1.1, minus: 0.9 },
+        "group2": { plus: 2.1, minus: 1.9 }
+    }
 
     const formatFunc = (value: string | number ) => "Value " + value.toString();
     const propsData = {
@@ -16,10 +22,7 @@ describe("chartjsBar component", () => {
                     label: "dataset1",
                     backgroundColor: "#111111",
                     data: [1,2],
-                    errorBars: {
-                        "group1": {plus: 1.1, minus: 0.9},
-                        "group2": {plus: 2.1, minus: 1.9}
-                    }
+                    errorBars
                 }
             ]
         }
@@ -147,5 +150,60 @@ describe("chartjsBar component", () => {
         //tooltip.yLabel is undefined - returns dataseries label
         renderedLabel = tooltipLabelCallback({datasetIndex: 0}, newChartData);
         expect(renderedLabel).toBe("dataset1: ");
+    });
+
+    it("tooltip label callback renders uncertainty ranges if given showErrors prop", async () => {
+        const wrapper = getWrapper();
+        const mockRenderChart = jest.fn();
+        const vm = (wrapper as any).vm;
+        vm.renderChart = mockRenderChart;
+
+        const newChartData = {
+            ...propsData.chartData,
+        };
+        wrapper.setProps({
+            ...propsData,
+            chartData: newChartData,
+            showErrors: true
+        });
+
+        await Vue.nextTick();
+
+        const renderedConfig = mockRenderChart.mock.calls[0][1];
+        const tooltipLabelCallback = renderedConfig.tooltips.callbacks.label;
+
+        let renderedLabel = tooltipLabelCallback({ datasetIndex: 0, yLabel: 2, xLabel: "group2" }, propsData.chartData);
+        expect(renderedLabel).toBe("dataset1: Value 2 (Value 1.9 - Value 2.1)");
+    });
+
+    it("tooltip label callback does not render uncertainty ranges if given showErrors contains null values", async () => {
+        const wrapper = getWrapper();
+        const mockRenderChart = jest.fn();
+        const vm = (wrapper as any).vm;
+        vm.renderChart = mockRenderChart;
+
+        const newErrorBars = {
+            "group1": { plus: null, minus: null },
+            "group2": { plus: null, minus: null }
+        }
+
+        const newChartData = {
+            ...propsData.chartData,
+        };
+        newChartData.datasets[0].errorBars = newErrorBars
+
+        wrapper.setProps({
+            ...propsData,
+            chartData: newChartData,
+            showErrors: true
+        });
+
+        await Vue.nextTick();
+
+        const renderedConfig = mockRenderChart.mock.calls[0][1];
+        const tooltipLabelCallback = renderedConfig.tooltips.callbacks.label;
+
+        let renderedLabel = tooltipLabelCallback({ datasetIndex: 0, yLabel: 2, xLabel: "group2" }, propsData.chartData);
+        expect(renderedLabel).toBe("dataset1: Value 2");
     });
 });
