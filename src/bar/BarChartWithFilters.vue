@@ -212,6 +212,11 @@
                 return this.filterConfig.filters.some((f: Filter) => this.filterIsShown(f.id));
             }
         },
+        watch: {
+            processedOutputData(){
+                console.log("processedOutputData", this.processedOutputData)
+            }
+        },
         methods: {
             normalizeIndicators(node: BarchartIndicator) {
                 return {id: node.indicator, label: node.name};
