@@ -48,6 +48,7 @@
                         style="width: 100%; height: 100%;"></bar-chart-with-errors>
             </div>
         </div>
+        <div v-if="showNoDataMessage">No data are available</div>
     </div>
 </template>
 
@@ -69,6 +70,10 @@
         xAxisConfig: AxisConfig | null,
         disaggregateByConfig: AxisConfig | null
     }
+
+    // interface Data {
+    //     showNoDataMessage: boolean
+    // }
 
     interface Methods {
         normalizeIndicators: (node: BarchartIndicator) => FilterOption,
@@ -94,6 +99,7 @@
         initialised: boolean,
         formatValueFunction: (value: string | number) => string,
         anyFiltersShown: boolean
+        showNoDataMessage: boolean
     }
 
     const props = {
@@ -131,6 +137,11 @@
             prop: "selections",
             event: "change"
         },
+        // data(){
+        //     return {
+        //         showNoDataMessage: false
+        //     }
+        // },
         computed: {
             indicatorId: {
                 get() {
@@ -210,13 +221,18 @@
             },
             anyFiltersShown() {
                 return this.filterConfig.filters.some((f: Filter) => this.filterIsShown(f.id));
+            },
+            showNoDataMessage() {
+                console.log("processedOutputData 2", this.processedOutputData)
+                return this.processedOutputData && this.processedOutputData.datasets && !this.processedOutputData.datasets.length
             }
         },
-        watch: {
-            processedOutputData(){
-                console.log("processedOutputData", this.processedOutputData)
-            }
-        },
+        // watch: {
+        //     processedOutputData(){
+        //         console.log("processedOutputData", this.processedOutputData)
+        //         this.showNoDataMessage = this.processedOutputData?.datasets && !this.processedOutputData.datasets.length
+        //     }
+        // },
         methods: {
             normalizeIndicators(node: BarchartIndicator) {
                 return {id: node.indicator, label: node.name};
