@@ -376,7 +376,7 @@ describe("Barchart component", () => {
         expect(wrapper.find("h3").text()).toBe("Filters");
     });
 
-    it("renders warning message when no data exists for current combination of filters", () => {
+    it("renders warning message when no data exist for current combination of filters", () => {
         const noDataMessage = "No data are available for the selected combination. Please review the combination of filter values selected."
         const wrapper = shallowMount(BarChartWithFilters, {
             propsData: {
@@ -395,7 +395,7 @@ describe("Barchart component", () => {
         expect(wrapper.find("#noDataMessage").text()).toBe(noDataMessage);
     });
 
-    it("does not render warning message when prop given but data exists for current combination of filters", () => {
+    it("does not render warning message when prop given but data exist for current combination of filters", () => {
         const noDataMessage = "No data are available for the selected combination. Please review the combination of filter values selected."
         const wrapper = shallowMount(BarChartWithFilters, {
             propsData: {
@@ -406,8 +406,7 @@ describe("Barchart component", () => {
         expect(wrapper.find("#noDataMessage").exists()).toBe(false);
     });
 
-    it("does not render warning message when no data exists for current combination of filters but prop not given", () => {
-        const noDataMessage = "No data are available for the selected combination. Please review the combination of filter values selected."
+    it("does not render warning message when no data exist for current combination of filters but prop not given", () => {
         const wrapper = shallowMount(BarChartWithFilters, {
             propsData: {
                 ...propsData,
