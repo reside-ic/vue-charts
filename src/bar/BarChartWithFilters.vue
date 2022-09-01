@@ -38,7 +38,7 @@
                                    @input="changeFilter(filter.id, $event)"></filter-select>
                 </div>
             </div>
-            <div v-if="!!xAxisLabel" id="chart" class="col-md-9">
+            <div v-if="!!xAxisLabel" id="chart" class="col-md-9" style="position:relative;">
                 <bar-chart-with-errors
                         :chart-data="processedOutputData"
                         :xLabel="xAxisLabel"
@@ -46,9 +46,13 @@
                         :yFormat="formatValueFunction"
                         :show-errors="showRangesInTooltips"
                         style="width: 100%; height: 100%;"></bar-chart-with-errors>
+                <div v-if="showNoDataMessage" class="px-3 py-2" style="width:60%;position:absolute;border: 1px solid #adb5bd; bottom: 50%; left: 25%; background: #fff;margin:auto;">
+                    <span class="lead">
+                        <strong>No data are available</strong>
+                    </span>
+                </div>
             </div>
         </div>
-        <div v-if="showNoDataMessage">No data are available</div>
     </div>
 </template>
 
