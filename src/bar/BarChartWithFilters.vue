@@ -46,9 +46,9 @@
                         :yFormat="formatValueFunction"
                         :show-errors="showRangesInTooltips"
                         style="width: 100%; height: 100%;"></bar-chart-with-errors>
-                <div v-if="showNoDataMessage" class="px-3 py-2" style="width:60%;position:absolute;border: 1px solid #adb5bd; bottom: 50%; left: 25%; background: #fff;margin:auto;">
+                <div v-if="showNoDataMessage" class="px-3 py-2" style="width: 60%; position: absolute; border: 1px solid #adb5bd; bottom: 50%; left: 25%; background: #fff; margin:auto;">
                     <span class="lead">
-                        <strong>No data are available</strong>
+                        <strong>{{ noDataMessage }}</strong>
                     </span>
                 </div>
             </div>
@@ -73,11 +73,8 @@
         showRangesInTooltips: boolean,
         xAxisConfig: AxisConfig | null,
         disaggregateByConfig: AxisConfig | null
+        noDataMessage: string | null
     }
-
-    // interface Data {
-    //     showNoDataMessage: boolean
-    // }
 
     interface Methods {
         normalizeIndicators: (node: BarchartIndicator) => FilterOption,
@@ -131,6 +128,10 @@
         showRangesInTooltips: {
             type: Boolean,
             default: false
+        },
+        noDataMessage: {
+            type: String || null,
+            default: null
         }
     };
 
@@ -141,11 +142,6 @@
             prop: "selections",
             event: "change"
         },
-        // data(){
-        //     return {
-        //         showNoDataMessage: false
-        //     }
-        // },
         computed: {
             indicatorId: {
                 get() {
@@ -228,15 +224,9 @@
             },
             showNoDataMessage() {
                 console.log("processedOutputData 2", this.processedOutputData)
-                return this.processedOutputData && this.processedOutputData.datasets && !this.processedOutputData.datasets.length
+                return this.noDataMessage && this.processedOutputData && this.processedOutputData.datasets && !this.processedOutputData.datasets.length
             }
         },
-        // watch: {
-        //     processedOutputData(){
-        //         console.log("processedOutputData", this.processedOutputData)
-        //         this.showNoDataMessage = this.processedOutputData?.datasets && !this.processedOutputData.datasets.length
-        //     }
-        // },
         methods: {
             normalizeIndicators(node: BarchartIndicator) {
                 return {id: node.indicator, label: node.name};
@@ -282,6 +272,7 @@
                 }, {} as Dict<FilterOption[]>);
                 this.changeSelections({selectedFilterOptions: defaultSelected});
             }
+            console.log(this.noDataMessage)
         },
         components: {
             BarChartWithErrors,
