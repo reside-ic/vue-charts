@@ -38,7 +38,7 @@
                                    @input="changeFilter(filter.id, $event)"></filter-select>
                 </div>
             </div>
-            <div v-if="!!xAxisLabel" id="chart" class="col-md-9" style="position:relative;">
+            <div v-if="!!xAxisLabel" id="chart" class="col-md-9 position-relative">
                 <bar-chart-with-errors
                         :chart-data="processedOutputData"
                         :xLabel="xAxisLabel"
