@@ -38,7 +38,7 @@
                                    @input="changeFilter(filter.id, $event)"></filter-select>
                 </div>
             </div>
-            <div v-if="!!xAxisLabel" id="chart" class="col-md-9">
+            <div v-if="!!xAxisLabel" id="chart" class="col-md-9 position-relative">
                 <bar-chart-with-errors
                         :chart-data="processedOutputData"
                         :xLabel="xAxisLabel"
@@ -46,6 +46,11 @@
                         :yFormat="formatValueFunction"
                         :show-errors="showRangesInTooltips"
                         style="width: 100%; height: 100%;"></bar-chart-with-errors>
+                <div v-if="showNoDataMessage" id="noDataMessage" class="px-3 py-2 noDataMessage">
+                    <span class="lead">
+                        <strong>{{ noDataMessage }}</strong>
+                    </span>
+                </div>
             </div>
         </div>
     </div>
@@ -68,6 +73,7 @@
         showRangesInTooltips: boolean,
         xAxisConfig: AxisConfig | null,
         disaggregateByConfig: AxisConfig | null
+        noDataMessage: string | null
     }
 
     interface Methods {
@@ -94,6 +100,7 @@
         initialised: boolean,
         formatValueFunction: (value: string | number) => string,
         anyFiltersShown: boolean
+        showNoDataMessage: boolean
     }
 
     const props = {
@@ -121,6 +128,10 @@
         showRangesInTooltips: {
             type: Boolean,
             default: false
+        },
+        noDataMessage: {
+            type: String || null,
+            default: null
         }
     };
 
@@ -210,6 +221,9 @@
             },
             anyFiltersShown() {
                 return this.filterConfig.filters.some((f: Filter) => this.filterIsShown(f.id));
+            },
+            showNoDataMessage() {
+                return this.noDataMessage && this.processedOutputData  && !this.processedOutputData.datasets.length
             }
         },
         methods: {

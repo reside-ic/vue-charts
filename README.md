@@ -192,6 +192,10 @@ values. Both `fixed` and `hideFilter` default to `false`.
 }
 ```  
 
+#### noDataMessage
+Optional configuration specifying whether a message is displayed over the barchart when the current combination of filter selections have
+no data available for them. Takes the message to be displayed as a `string`. Set to `null` by default, with no message being displayed.
+
 
 ## Development
   * To run unit tests with jest: `npm test`
