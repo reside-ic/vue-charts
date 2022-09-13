@@ -223,7 +223,7 @@
                 return this.filterConfig.filters.some((f: Filter) => this.filterIsShown(f.id));
             },
             showNoDataMessage() {
-                return this.noDataMessage && this.processedOutputData && this.processedOutputData.datasets && !this.processedOutputData.datasets.length
+                return this.noDataMessage && this.processedOutputData  && !this.processedOutputData.datasets.length
             }
         },
         methods: {
