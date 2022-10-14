@@ -14,14 +14,14 @@
                     <label class="font-weight-bold">{{filterConfig.xAxisLabel || "X Axis"}}</label>
                     <tree-select :multiple=false
                                  :clearable="false"
-                                 :options="filtersAsOptions"
+                                 :options="filterXOptions"
                                  v-model="xAxisId"></tree-select>
                 </div>
                 <div v-if="!(disaggregateByConfig && disaggregateByConfig.fixed)" id="disagg-fg" class="form-group">
                     <label class="font-weight-bold">{{filterConfig.disaggLabel || "Disaggregate by"}}</label>
                     <tree-select :multiple=false
                                  :clearable="false"
-                                 :options="filtersAsOptions"
+                                 :options="filterDisaggregateOptions"
                                  v-model="disaggregateById"></tree-select>
                 </div>
                 <hr/>
@@ -100,7 +100,9 @@
         initialised: boolean,
         formatValueFunction: (value: string | number) => string,
         anyFiltersShown: boolean
-        showNoDataMessage: boolean
+        showNoDataMessage: boolean,
+        filterDisaggregateOptions: FilterOption[]
+        filterXOptions: FilterOption[]
     }
 
     const props = {
@@ -135,12 +137,23 @@
         }
     };
 
-    export default Vue.extend<{}, Methods, Computed, Props>({
+    interface Data{
+        disaggregateIsFixed: boolean | null
+        xAsisIsFixed: boolean | null
+    }
+
+    export default Vue.extend<Data, Methods, Computed, Props>({
         name: "BarChart",
         props: props,
         model: {
             prop: "selections",
             event: "change"
+        },
+        data(): Data {
+            return {
+                disaggregateIsFixed: this.disaggregateByConfig && this.disaggregateByConfig.fixed,
+                xAsisIsFixed: this.xAxisConfig && this.xAxisConfig.fixed,
+            }
         },
         computed: {
             indicatorId: {
@@ -190,6 +203,24 @@
             },
             filtersAsOptions() {
                 return this.filterConfig.filters.map((f: Filter) => ({id: f.id, label: f.label}))
+            },
+            filterXOptions() {
+                const filteredOptions = this.filterConfig.filters.map((f: Filter) => ({id: f.id, label: f.label}))
+
+                if (this.disaggregateIsFixed) {
+                    return filteredOptions.filter(f => f.id != this.xAxisId)
+                }
+
+                return filteredOptions
+            },
+            filterDisaggregateOptions() {
+                const filteredOptions = this.filterConfig.filters.map((f: Filter) => ({id: f.id, label: f.label}))
+
+                if (this.xAsisIsFixed) {
+                    return filteredOptions.filter(f => f.id != this.xAxisId)
+                }
+
+                return filteredOptions
             },
             processedOutputData() {
                 return this.initialised ? getProcessedOutputData(
