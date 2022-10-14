@@ -151,6 +151,39 @@ describe("Barchart component", () => {
         ]);
     });
 
+    it("computes filter disaggregate options when xasis is fixed", () => {
+        const wrapper = shallowMount(BarChartWithFilters, {
+            propsData: {
+                ...propsData,
+                xAxisConfig: {fixed: true, hideFilter: false}
+            },
+        });
+        const vm = (wrapper as any).vm;
+
+        const result = vm.filterDisaggregateOptions
+        expect(result).toStrictEqual([
+            {id: "age", label: "Age group"},
+            {id: "sex", label: "Sex"}
+        ]);
+    });
+
+    it("computes filter x asis options when disaggregate is fixed", () => {
+        const wrapper = shallowMount(BarChartWithFilters, {
+            propsData: {
+                ...propsData,
+                disaggregateByConfig: {fixed: true, hideFilter: false}
+            },
+        });
+        const vm = (wrapper as any).vm;
+
+        const result = vm.filterXasisOptions
+        expect(result).toStrictEqual([
+            {id: "region", label: "Region"},
+            {id: "sex", label: "Sex"}
+        ]);
+    });
+
+
     it("computes indicator", () => {
         const wrapper = getWrapper();
         const vm = (wrapper as any).vm;

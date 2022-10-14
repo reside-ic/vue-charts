@@ -14,7 +14,7 @@
                     <label class="font-weight-bold">{{filterConfig.xAxisLabel || "X Axis"}}</label>
                     <tree-select :multiple=false
                                  :clearable="false"
-                                 :options="filterXOptions"
+                                 :options="filterXasisOptions"
                                  v-model="xAxisId"></tree-select>
                 </div>
                 <div v-if="!(disaggregateByConfig && disaggregateByConfig.fixed)" id="disagg-fg" class="form-group">
@@ -102,7 +102,7 @@
         anyFiltersShown: boolean
         showNoDataMessage: boolean,
         filterDisaggregateOptions: FilterOption[]
-        filterXOptions: FilterOption[]
+        filterXasisOptions: FilterOption[]
     }
 
     const props = {
@@ -204,23 +204,17 @@
             filtersAsOptions() {
                 return this.filterConfig.filters.map((f: Filter) => ({id: f.id, label: f.label}))
             },
-            filterXOptions() {
-                const filteredOptions = this.filterConfig.filters.map((f: Filter) => ({id: f.id, label: f.label}))
-
+            filterXasisOptions() {
                 if (this.disaggregateIsFixed) {
-                    return filteredOptions.filter(f => f.id != this.xAxisId)
+                    return this.filtersAsOptions.filter(f => f.id != this.disaggregateById)
                 }
-
-                return filteredOptions
+                return this.filtersAsOptions
             },
             filterDisaggregateOptions() {
-                const filteredOptions = this.filterConfig.filters.map((f: Filter) => ({id: f.id, label: f.label}))
-
                 if (this.xAsisIsFixed) {
-                    return filteredOptions.filter(f => f.id != this.xAxisId)
+                    return this.filtersAsOptions.filter(f => f.id != this.xAxisId)
                 }
-
-                return filteredOptions
+                return this.filtersAsOptions
             },
             processedOutputData() {
                 return this.initialised ? getProcessedOutputData(
