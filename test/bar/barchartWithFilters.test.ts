@@ -139,11 +139,23 @@ describe("Barchart component", () => {
         expect(result).toStrictEqual({"1": "Northern"});
     });
 
-    it("computes filters as options", () => {
+    it("computes disaggregate as options", () => {
         const wrapper = getWrapper();
         const vm = (wrapper as any).vm;
 
-        const result = vm.filtersAsOptions
+        const result = vm.filterDisaggregateOptions
+        expect(result).toStrictEqual([
+            {id: "region", label: "Region"},
+            {id: "age", label: "Age group"},
+            {id: "sex", label: "Sex"}
+        ]);
+    });
+
+    it("computes xasis as options", () => {
+        const wrapper = getWrapper();
+        const vm = (wrapper as any).vm;
+
+        const result = vm.filterXasisOptions
         expect(result).toStrictEqual([
             {id: "region", label: "Region"},
             {id: "age", label: "Age group"},
