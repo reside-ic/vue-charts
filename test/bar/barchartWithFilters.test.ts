@@ -155,7 +155,7 @@ describe("Barchart component", () => {
         const wrapper = getWrapper();
         const vm = (wrapper as any).vm;
 
-        const result = vm.filterXasisOptions
+        const result = vm.filterXaxisOptions
         expect(result).toStrictEqual([
             {id: "region", label: "Region"},
             {id: "age", label: "Age group"},
@@ -188,7 +188,7 @@ describe("Barchart component", () => {
         });
         const vm = (wrapper as any).vm;
 
-        const result = vm.filterXasisOptions
+        const result = vm.filterXaxisOptions
         expect(result).toStrictEqual([
             {id: "region", label: "Region"},
             {id: "sex", label: "Sex"}

@@ -10,14 +10,14 @@
                                  v-model="indicatorId"
                                  :normalizer="normalizeIndicators"></tree-select>
                 </div>
-                <div v-if="!(xAxisConfig && xAxisConfig.fixed)" id="x-axis-fg" class="form-group">
+                <div v-if="!xAsisIsFixed" id="x-axis-fg" class="form-group">
                     <label class="font-weight-bold">{{filterConfig.xAxisLabel || "X Axis"}}</label>
                     <tree-select :multiple=false
                                  :clearable="false"
-                                 :options="filterXasisOptions"
+                                 :options="filterXaxisOptions"
                                  v-model="xAxisId"></tree-select>
                 </div>
-                <div v-if="!(disaggregateByConfig && disaggregateByConfig.fixed)" id="disagg-fg" class="form-group">
+                <div v-if="!disaggregateIsFixed" id="disagg-fg" class="form-group">
                     <label class="font-weight-bold">{{filterConfig.disaggLabel || "Disaggregate by"}}</label>
                     <tree-select :multiple=false
                                  :clearable="false"
@@ -102,7 +102,7 @@
         anyFiltersShown: boolean
         showNoDataMessage: boolean,
         filterDisaggregateOptions: FilterOption[]
-        filterXasisOptions: FilterOption[]
+        filterXaxisOptions: FilterOption[]
     }
 
     const props = {
@@ -204,15 +204,15 @@
             filtersAsOptions() {
                 return this.filterConfig.filters.map((f: Filter) => ({id: f.id, label: f.label}))
             },
-            filterXasisOptions() {
+            filterXaxisOptions() {
                 if (this.disaggregateIsFixed) {
-                    return this.filtersAsOptions.filter(f => f.id != this.disaggregateById)
+                    return this.filtersAsOptions.filter(f => f.id !== this.disaggregateById)
                 }
                 return this.filtersAsOptions
             },
             filterDisaggregateOptions() {
                 if (this.xAsisIsFixed) {
-                    return this.filtersAsOptions.filter(f => f.id != this.xAxisId)
+                    return this.filtersAsOptions.filter(f => f.id !== this.xAxisId)
                 }
                 return this.filtersAsOptions
             },
