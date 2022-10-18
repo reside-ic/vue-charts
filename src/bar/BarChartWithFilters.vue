@@ -10,18 +10,18 @@
                                  v-model="indicatorId"
                                  :normalizer="normalizeIndicators"></tree-select>
                 </div>
-                <div v-if="!(xAxisConfig && xAxisConfig.fixed)" id="x-axis-fg" class="form-group">
+                <div v-if="!xAxisIsFixed" id="x-axis-fg" class="form-group">
                     <label class="font-weight-bold">{{filterConfig.xAxisLabel || "X Axis"}}</label>
                     <tree-select :multiple=false
                                  :clearable="false"
-                                 :options="filtersAsOptions"
+                                 :options="filterXaxisOptions"
                                  v-model="xAxisId"></tree-select>
                 </div>
-                <div v-if="!(disaggregateByConfig && disaggregateByConfig.fixed)" id="disagg-fg" class="form-group">
+                <div v-if="!disaggregateIsFixed" id="disagg-fg" class="form-group">
                     <label class="font-weight-bold">{{filterConfig.disaggLabel || "Disaggregate by"}}</label>
                     <tree-select :multiple=false
                                  :clearable="false"
-                                 :options="filtersAsOptions"
+                                 :options="filterDisaggregateOptions"
                                  v-model="disaggregateById"></tree-select>
                 </div>
                 <hr/>
@@ -100,7 +100,11 @@
         initialised: boolean,
         formatValueFunction: (value: string | number) => string,
         anyFiltersShown: boolean
-        showNoDataMessage: boolean
+        showNoDataMessage: boolean,
+        filterDisaggregateOptions: FilterOption[]
+        filterXaxisOptions: FilterOption[],
+        xAxisIsFixed: boolean | null,
+        disaggregateIsFixed: boolean | null
     }
 
     const props = {
@@ -120,10 +124,12 @@
             type: Function
         },
         xAxisConfig: {
-            type: Object
+            type: Object,
+            default: null
         },
         disaggregateByConfig: {
-            type: Object
+            type: Object,
+            default: null
         },
         showRangesInTooltips: {
             type: Boolean,
@@ -135,7 +141,7 @@
         }
     };
 
-    export default Vue.extend<{}, Methods, Computed, Props>({
+    export default Vue.extend<unknown, Methods, Computed, Props>({
         name: "BarChart",
         props: props,
         model: {
@@ -143,6 +149,12 @@
             event: "change"
         },
         computed: {
+            disaggregateIsFixed() {
+                return this.disaggregateByConfig && this.disaggregateByConfig.fixed
+            },
+            xAxisIsFixed() {
+                return this.xAxisConfig && this.xAxisConfig.fixed
+            },
             indicatorId: {
                 get() {
                     return this.selections.indicatorId;
@@ -190,6 +202,18 @@
             },
             filtersAsOptions() {
                 return this.filterConfig.filters.map((f: Filter) => ({id: f.id, label: f.label}))
+            },
+            filterXaxisOptions() {
+                if (this.disaggregateIsFixed) {
+                    return this.filtersAsOptions.filter(f => f.id !== this.disaggregateById)
+                }
+                return this.filtersAsOptions
+            },
+            filterDisaggregateOptions() {
+                if (this.xAxisIsFixed) {
+                    return this.filtersAsOptions.filter(f => f.id !== this.xAxisId)
+                }
+                return this.filtersAsOptions
             },
             processedOutputData() {
                 return this.initialised ? getProcessedOutputData(

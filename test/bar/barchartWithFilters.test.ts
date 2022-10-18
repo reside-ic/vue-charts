@@ -139,17 +139,62 @@ describe("Barchart component", () => {
         expect(result).toStrictEqual({"1": "Northern"});
     });
 
-    it("computes filters as options", () => {
+    it("computes disaggregate as options", () => {
         const wrapper = getWrapper();
         const vm = (wrapper as any).vm;
 
-        const result = vm.filtersAsOptions
+        const result = vm.filterDisaggregateOptions
         expect(result).toStrictEqual([
             {id: "region", label: "Region"},
             {id: "age", label: "Age group"},
             {id: "sex", label: "Sex"}
         ]);
     });
+
+    it("computes xaxis as options", () => {
+        const wrapper = getWrapper();
+        const vm = (wrapper as any).vm;
+
+        const result = vm.filterXaxisOptions
+        expect(result).toStrictEqual([
+            {id: "region", label: "Region"},
+            {id: "age", label: "Age group"},
+            {id: "sex", label: "Sex"}
+        ]);
+    });
+
+    it("computes filter disaggregate options when xaxis is fixed", () => {
+        const wrapper = shallowMount(BarChartWithFilters, {
+            propsData: {
+                ...propsData,
+                xAxisConfig: {fixed: true, hideFilter: false}
+            },
+        });
+        const vm = (wrapper as any).vm;
+
+        const result = vm.filterDisaggregateOptions
+        expect(result).toStrictEqual([
+            {id: "age", label: "Age group"},
+            {id: "sex", label: "Sex"}
+        ]);
+    });
+
+    it("computes filter Xaxis options when disaggregate is fixed", () => {
+        const wrapper = shallowMount(BarChartWithFilters, {
+            propsData: {
+                ...propsData,
+                disaggregateByConfig: {fixed: true, hideFilter: false}
+            },
+        });
+        const vm = (wrapper as any).vm;
+
+        const result = vm.filterXaxisOptions
+        expect(result).toStrictEqual([
+            {id: "region", label: "Region"},
+            {id: "sex", label: "Sex"}
+        ]);
+    });
+
 
     it("computes indicator", () => {
         const wrapper = getWrapper();
