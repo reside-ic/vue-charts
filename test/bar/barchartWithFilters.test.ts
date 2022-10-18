@@ -179,7 +179,7 @@ describe("Barchart component", () => {
         ]);
     });
 
-    it("computes filter x asis options when disaggregate is fixed", () => {
+    it("computes filter Xaxis options when disaggregate is fixed", () => {
         const wrapper = shallowMount(BarChartWithFilters, {
             propsData: {
                 ...propsData,
