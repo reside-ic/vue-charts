@@ -151,7 +151,7 @@ describe("Barchart component", () => {
         ]);
     });
 
-    it("computes xasis as options", () => {
+    it("computes xaxis as options", () => {
         const wrapper = getWrapper();
         const vm = (wrapper as any).vm;
 
@@ -163,7 +163,7 @@ describe("Barchart component", () => {
         ]);
     });
 
-    it("computes filter disaggregate options when xasis is fixed", () => {
+    it("computes filter disaggregate options when xaxis is fixed", () => {
         const wrapper = shallowMount(BarChartWithFilters, {
             propsData: {
                 ...propsData,

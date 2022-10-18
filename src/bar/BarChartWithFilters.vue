@@ -10,7 +10,7 @@
                                  v-model="indicatorId"
                                  :normalizer="normalizeIndicators"></tree-select>
                 </div>
-                <div v-if="!xAsisIsFixed" id="x-axis-fg" class="form-group">
+                <div v-if="!xAxisIsFixed" id="x-axis-fg" class="form-group">
                     <label class="font-weight-bold">{{filterConfig.xAxisLabel || "X Axis"}}</label>
                     <tree-select :multiple=false
                                  :clearable="false"
@@ -102,7 +102,9 @@
         anyFiltersShown: boolean
         showNoDataMessage: boolean,
         filterDisaggregateOptions: FilterOption[]
-        filterXaxisOptions: FilterOption[]
+        filterXaxisOptions: FilterOption[],
+        xAxisIsFixed: boolean | null,
+        disaggregateIsFixed: boolean | null
     }
 
     const props = {
@@ -122,10 +124,12 @@
             type: Function
         },
         xAxisConfig: {
-            type: Object
+            type: Object,
+            default: null
         },
         disaggregateByConfig: {
-            type: Object
+            type: Object,
+            default: null
         },
         showRangesInTooltips: {
             type: Boolean,
@@ -137,25 +141,20 @@
         }
     };
 
-    interface Data{
-        disaggregateIsFixed: boolean | null
-        xAsisIsFixed: boolean | null
-    }
-
-    export default Vue.extend<Data, Methods, Computed, Props>({
+    export default Vue.extend<unknown, Methods, Computed, Props>({
         name: "BarChart",
         props: props,
         model: {
             prop: "selections",
             event: "change"
         },
-        data(): Data {
-            return {
-                disaggregateIsFixed: this.disaggregateByConfig && this.disaggregateByConfig.fixed,
-                xAsisIsFixed: this.xAxisConfig && this.xAxisConfig.fixed,
-            }
-        },
         computed: {
+            disaggregateIsFixed() {
+                return this.disaggregateByConfig && this.disaggregateByConfig.fixed
+            },
+            xAxisIsFixed() {
+                return this.xAxisConfig && this.xAxisConfig.fixed
+            },
             indicatorId: {
                 get() {
                     return this.selections.indicatorId;
@@ -211,7 +210,7 @@
                 return this.filtersAsOptions
             },
             filterDisaggregateOptions() {
-                if (this.xAsisIsFixed) {
+                if (this.xAxisIsFixed) {
                     return this.filtersAsOptions.filter(f => f.id !== this.xAxisId)
                 }
                 return this.filtersAsOptions
