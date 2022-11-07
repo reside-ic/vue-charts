@@ -59,7 +59,7 @@ const getWrapper = () => {
     return shallowMount(BarChartWithFilters, {propsData});
 };
 
-const confirmFormGroup = (wrapper: Wrapper<BarChartWithFilters>, elementId: string, label: string) => {
+const confirmFormGroup = (wrapper: Wrapper<any>, elementId: string, label: string) => {
     const fg = wrapper.find(elementId);
     expect(fg.find("label").text()).toBe(label);
     expect(fg.findAll("tree-select-stub").length).toBe(1);
@@ -266,12 +266,12 @@ describe("Barchart component", () => {
         const wrapper = shallowMount(BarChartWithFilters, {propsData: props});
 
         Vue.nextTick();
-        expect(wrapper.emitted()["update"].length).toBe(4);
+        expect(wrapper.emitted()["update"]!.length).toBe(4);
 
-        expect(wrapper.emitted()["update"][0][0]).toStrictEqual({indicatorId: "art_cov"});
-        expect(wrapper.emitted()["update"][1][0]).toStrictEqual({xAxisId: "region"});
-        expect(wrapper.emitted()["update"][2][0]).toStrictEqual({disaggregateById: "age"});
-        expect(wrapper.emitted()["update"][3][0]).toStrictEqual({
+        expect(wrapper.emitted()["update"]![0][0]).toStrictEqual({indicatorId: "art_cov"});
+        expect(wrapper.emitted()["update"]![1][0]).toStrictEqual({xAxisId: "region"});
+        expect(wrapper.emitted()["update"]![2][0]).toStrictEqual({disaggregateById: "age"});
+        expect(wrapper.emitted()["update"]![3][0]).toStrictEqual({
             selectedFilterOptions: {
                 region: [{id: "1", label: "Northern"}],
                 age: [{id: "0:4", label: "0-4"}],
@@ -292,9 +292,9 @@ describe("Barchart component", () => {
         const vm = (wrapper as any).vm;
         vm.indicatorId = "newIndicatorId";
 
-        expect(wrapper.emitted()["update"].length).toBe(1);
+        expect(wrapper.emitted()["update"]!.length).toBe(1);
         const expected = {indicatorId: "newIndicatorId"};
-        expect(wrapper.emitted()["update"][0][0]).toStrictEqual(expected);
+        expect(wrapper.emitted()["update"]![0][0]).toStrictEqual(expected);
     });
 
     it("csetting xAxisId emits update event with new data", () => {
@@ -302,9 +302,9 @@ describe("Barchart component", () => {
         const vm = (wrapper as any).vm;
         vm.xAxisId = "newXAxisId";
 
-        expect(wrapper.emitted()["update"].length).toBe(1);
+        expect(wrapper.emitted()["update"]!.length).toBe(1);
         const expected = {xAxisId: "newXAxisId"};
-        expect(wrapper.emitted()["update"][0][0]).toStrictEqual(expected);
+        expect(wrapper.emitted()["update"]![0][0]).toStrictEqual(expected);
     });
 
     it("setting disaggregateById emits update event with new data", () => {
@@ -312,9 +312,9 @@ describe("Barchart component", () => {
         const vm = (wrapper as any).vm;
         vm.disaggregateById = "newDisaggById";
 
-        expect(wrapper.emitted()["update"].length).toBe(1);
+        expect(wrapper.emitted()["update"]!.length).toBe(1);
         const expected = {disaggregateById: "newDisaggById"};
-        expect(wrapper.emitted()["update"][0][0]).toStrictEqual(expected);
+        expect(wrapper.emitted()["update"]![0][0]).toStrictEqual(expected);
     });
 
     it("changeFilter emits update event with new data", () => {
@@ -322,7 +322,7 @@ describe("Barchart component", () => {
         const vm = (wrapper as any).vm;
         vm.changeFilter("age", [{id: "newAgeId", label: "newAgeLabel"}]);
 
-        expect(wrapper.emitted()["update"].length).toBe(1);
+        expect(wrapper.emitted()["update"]!.length).toBe(1);
 
         const expectedSelectedFilterOptions = {
             ...propsData.selections.selectedFilterOptions,
@@ -330,7 +330,7 @@ describe("Barchart component", () => {
         };
 
         const expected = {...propsData.selections, selectedFilterOptions: expectedSelectedFilterOptions};
-        expect(wrapper.emitted()["update"][0][0]).toStrictEqual(expected);
+        expect(wrapper.emitted()["update"]![0][0]).toStrictEqual(expected);
     });
 
     it("hides x axis controls when x axis should be fixed", () => {
