@@ -88,6 +88,7 @@ describe("Barchart component", () => {
         const chart = wrapper.find("#chart bar-chart-with-errors-stub");
         expect(chart.attributes("xlabel")).toBe("Region");
         expect(chart.attributes("ylabel")).toBe("ART coverage");
+        expect(chart.attributes("style")).toBe("width: 100vh; height: 100vh; position: relative;");
 
         const xAxis = wrapper.find("#x-axis-fg");
         expect(xAxis.find("label").text()).toBe("X Axis");
