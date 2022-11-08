@@ -45,7 +45,7 @@
                         :yLabel="indicatorLabel"
                         :yFormat="formatValueFunction"
                         :show-errors="showRangesInTooltips"
-                        style="width: 100%; height: 100%; position: relative"></bar-chart-with-errors>
+                        style="min-width: 90vh; min-height: 90vh; position: relative"></bar-chart-with-errors>
                 <div v-if="showNoDataMessage" id="noDataMessage" class="px-3 py-2 noDataMessage">
                     <span class="lead">
                         <strong>{{ noDataMessage }}</strong>
