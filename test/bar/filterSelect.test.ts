@@ -55,7 +55,7 @@ describe("FilterSelect component", () => {
         const vm = (wrapper as any).vm;
 
         vm.select({id: "fo1", label: "option 1"});
-        expect(wrapper.emitted("input")[0][0]).toStrictEqual([
+        expect(wrapper.emitted("input")![0][0]).toStrictEqual([
             {id: "fo2", label: "option 2"}, {id: "fo1", label: "option 1"}]);
     });
 
@@ -64,7 +64,7 @@ describe("FilterSelect component", () => {
         const vm = (wrapper as any).vm;
 
         vm.select({id: "fo1", label: "option 1"});
-        expect(wrapper.emitted("input")[0][0]).toStrictEqual([{id: "fo1", label: "option 1"}]);
+        expect(wrapper.emitted("input")![0][0]).toStrictEqual([{id: "fo1", label: "option 1"}]);
     });
 
     it("emits input event on deselect", () => {
@@ -72,7 +72,7 @@ describe("FilterSelect component", () => {
         const vm = (wrapper as any).vm;
 
         vm.deselect({id: "fo2", label: "option 2"});
-        expect(wrapper.emitted("input")[0][0]).toStrictEqual([]);
+        expect(wrapper.emitted("input")![0][0]).toStrictEqual([]);
     });
 
     it("computes isXAxisOrDisagg", () => {
@@ -117,7 +117,7 @@ describe("FilterSelect component", () => {
         wrapper.setProps({isXAxis: false, isDisaggregateBy: false});
 
         await Vue.nextTick();
-        expect(wrapper.emitted("input")[0][0]).toStrictEqual([{id: "fo2", label: "option 2"}]);
+        expect(wrapper.emitted("input")![0][0]).toStrictEqual([{id: "fo2", label: "option 2"}]);
     });
 
     it("updates selected when isXAxisOrDisagg changes and none selected", async () => {
@@ -128,6 +128,6 @@ describe("FilterSelect component", () => {
         wrapper.setProps({isXAxis: false, isDisaggregateBy: false});
 
         await Vue.nextTick();
-        expect(wrapper.emitted("input")[0][0]).toStrictEqual([{id: "fo1", label: "option 1"}]);
+        expect(wrapper.emitted("input")![0][0]).toStrictEqual([{id: "fo1", label: "option 1"}]);
     });
 });
