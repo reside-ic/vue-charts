@@ -33,6 +33,7 @@
                     <filter-select :value="getSelectedFilterOptions(filter.id)"
                                    :is-disaggregate-by="filter.id === selections.disaggregateById"
                                    :is-x-axis="filter.id === selections.xAxisId"
+                                   :default-value="{defaults: selections.selectedFilterOptions[filter.id], defaultSelections}"
                                    :label="filter.label"
                                    :options="filter.options"
                                    @input="changeFilter(filter.id, $event)"></filter-select>
@@ -73,7 +74,8 @@
         showRangesInTooltips: boolean,
         xAxisConfig: AxisConfig | null,
         disaggregateByConfig: AxisConfig | null
-        noDataMessage: string | null
+        noDataMessage: string | null,
+        defaultSelections: boolean
     }
 
     interface Methods {
@@ -138,6 +140,10 @@
         noDataMessage: {
             type: String || null,
             default: null
+        },
+        defaultSelections: {
+            type: Boolean,
+            default: false
         }
     };
 

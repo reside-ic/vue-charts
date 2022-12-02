@@ -20,13 +20,18 @@
     import {FilterOption} from "./types";
     import TreeSelect from '@riophae/vue-treeselect';
 
+    interface DefaultSelections {
+        defaults: any[],
+        defaultSelections: boolean
+    }
     interface Props {
         id: string
         options: FilterOption[]
         isXAxis: boolean
         isDisaggregateBy: boolean
         value: any[]
-        label: string
+        label: string,
+        defaultValue: DefaultSelections
     }
 
     const props = {
@@ -35,7 +40,8 @@
         isXAxis: Boolean,
         isDisaggregateBy: Boolean,
         value: Array,
-        label: String
+        label: String,
+        defaultValue: Object
     };
 
     interface Data {
@@ -94,12 +100,23 @@
                 if (!this.isXAxisOrDisagg) {
                     //When we go from multi-select to single-select, update 'selected'
                     if (this.selected.length > 1) {
-                        this.selected = [this.selected[0]];
+                        this.selected = this.defaultValue.defaultSelections
+                            ? this.defaultValue.defaults
+                            : [this.selected[0]];
                     }
                     if (this.selected.length == 0) {
-                        this.selected.push(this.options[0]);
+                        this.defaultValue.defaultSelections
+                            ? this.selected = this.defaultValue.defaults
+                            : this.selected.push(this.options[0]);
                     }
                     this.$emit("input", this.selected);
+                } else {
+                    //When we go from single-select or multi-select
+                    //to multi-select, update 'selected' with default selection
+                    if (this.defaultValue.defaultSelections) {
+                        this.selected = this.defaultValue.defaults;
+                        this.$emit("input", this.selected);
+                    }
                 }
             }
         },
