@@ -231,7 +231,7 @@ describe("Barchart component", () => {
         const formatValueFunction = vm.formatValueFunction;
         expect(formatValueFunction(99)).toBe("Value: 99, Indicator: art_cov");
 
-        expect(wrapper.find(BarChartWithErrors).props().yFormat).toBe(formatValueFunction);
+        expect(wrapper.findComponent(BarChartWithErrors).props().yFormat).toBe(formatValueFunction);
     });
 
     it("computes initialised", () => {

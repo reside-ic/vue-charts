@@ -51,6 +51,7 @@
     interface Methods {
         select: (node: FilterOption) => void
         deselect: (node: FilterOption) => void
+        updateSelectedFromValue: () => void
     }
 
     export default Vue.extend<Data, Methods, Computed, Props>({
@@ -72,6 +73,9 @@
             deselect(node: FilterOption) {
                 this.selected = this.selected.filter((n: any) => n.id != node.id);
                 this.$emit("input", this.selected);
+            },
+            updateSelectedFromValue() {
+              this.selected = this.isXAxisOrDisagg ? this.value : [this.value[0]];
             }
         },
         computed: {
@@ -82,18 +86,19 @@
                 return this.value.map((v: any) => v.id);
             },
             badge() {
-                if (this.isXAxis) {
-                    return ("x axis");
-                } else {
-                    return "disaggregate by"
-                }
+              if (this.isXAxis) {
+                return ("x axis");
+              } else {
+                return "disaggregate by"
+              }
             }
         },
         watch: {
             value() {
-                this.selected = (this.isXAxis || this.isDisaggregateBy) ? this.value : [this.value[0]]
+                this.updateSelectedFromValue();
             },
             isXAxisOrDisagg() {
+                this.updateSelectedFromValue();
                 if (!this.isXAxisOrDisagg) {
                     //When we go from multi-select to single-select, update 'selected'
                     if (this.selected.length > 1) {
