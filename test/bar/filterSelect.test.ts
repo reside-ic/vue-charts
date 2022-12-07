@@ -9,8 +9,7 @@ const defaultProps = () => {
         isXAxis: true,
         isDisaggregateBy: false,
         value: [{id: "fo2", label: "option 2"}],
-        label: "Test Filter",
-        defaultValue: {defaults: [], defaultSelections: false}
+        label: "Test Filter"
     }
 };
 
@@ -131,44 +130,16 @@ describe("FilterSelect component", () => {
         await Vue.nextTick();
         expect(wrapper.emitted("input")![0][0]).toStrictEqual([{id: "fo1", label: "option 1"}]);
     });
-    it("updates selected with default selections when isXAxisOrDisagg changes", async () => {
-        const wrapper = getWrapper({
-            defaultValue: {defaults: [{id: "fo2", label: "option 2"}], defaultSelections: true},
-            value: [{id: "fo1", label: "option 1"}, {id: "fo2", label: "option 2"}]
-        });
+
+    it("can update selected when value changes", async () => {
+        const wrapper = getWrapper();
+
         const vm = (wrapper as any).vm;
 
-        expect(vm.selected.length).toBe(2);
-        expect(vm.selected).toStrictEqual([{id: "fo1", label: "option 1"}, {id: "fo2", label: "option 2"}]);
-
-        wrapper.setProps({isXAxis: false, isDisaggregateBy: false});
+        wrapper.setProps({value: [{id: "fo2", label: "option 2"}]});
 
         await Vue.nextTick();
 
-        expect(vm.selected.length).toBe(1);
-
-        expect(vm.selected).toStrictEqual([{"id": "fo2", "label": "option 2"}]);
-
-        expect(wrapper.emitted("input")![0][0]).toStrictEqual([{id: "fo2", label: "option 2"}]);
-    });
-
-    it("updates selected with default selections when isXAxisOrDisagg changes and no current selection", async () => {
-        const wrapper = getWrapper({
-            defaultValue: {defaults: [{id: "fo2", label: "option 2"}], defaultSelections: true},
-            value: []
-        });
-        const vm = (wrapper as any).vm;
-
-        expect(vm.selected.length).toBe(0);
-
-        wrapper.setProps({isXAxis: false, isDisaggregateBy: false});
-
-        await Vue.nextTick();
-
-        expect(vm.selected.length).toBe(1);
-
-        expect(vm.selected).toStrictEqual([{"id": "fo2", "label": "option 2"}]);
-
-        expect(wrapper.emitted("input")![0][0]).toStrictEqual([{id: "fo2", label: "option 2"}]);
+        expect(vm.selected).toStrictEqual([{id: "fo2", label: "option 2"}])
     });
 });

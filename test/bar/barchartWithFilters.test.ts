@@ -45,8 +45,7 @@ const propsData = {
     },
     formatFunction,
     xAxisConfig: {fixed: false, hideFilter: false},
-    disaggregateByConfig: { fixed: false, hideFilter: false },
-    defaultValue: {defaults: [], defaultSelections: false}
+    disaggregateByConfig: { fixed: false, hideFilter: false }
 };
 
 const uninitializedSelections = {
