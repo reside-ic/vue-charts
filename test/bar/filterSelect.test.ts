@@ -130,4 +130,16 @@ describe("FilterSelect component", () => {
         await Vue.nextTick();
         expect(wrapper.emitted("input")![0][0]).toStrictEqual([{id: "fo1", label: "option 1"}]);
     });
+
+    it("can update selected when value changes", async () => {
+        const wrapper = getWrapper();
+
+        const vm = (wrapper as any).vm;
+
+        wrapper.setProps({value: [{id: "fo2", label: "option 2"}]});
+
+        await Vue.nextTick();
+
+        expect(vm.selected).toStrictEqual([{id: "fo2", label: "option 2"}])
+    });
 });

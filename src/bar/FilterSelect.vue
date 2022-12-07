@@ -90,6 +90,9 @@
             }
         },
         watch: {
+            value() {
+                this.selected = (this.isXAxis || this.isDisaggregateBy) ? this.value : [this.value[0]]
+            },
             isXAxisOrDisagg() {
                 if (!this.isXAxisOrDisagg) {
                     //When we go from multi-select to single-select, update 'selected'

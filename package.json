@@ -1,6 +1,6 @@
 {
   "name": "@reside-ic/vue-charts",
-  "version": "0.4.4",
+  "version": "0.6.2",
   "description": "Vue components for data plotting",
   "main": "dist/js/index.js",
   "scripts": {
